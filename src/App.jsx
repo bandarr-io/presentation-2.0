@@ -1039,6 +1039,7 @@ function AppContent() {
   } else if (currentSceneId === 'consolidation') {
     sceneProps = {
       tools: sceneMetadata?.consolidation?.tools,
+      metadata: sceneMetadata?.consolidation || {},
     }
   }
 

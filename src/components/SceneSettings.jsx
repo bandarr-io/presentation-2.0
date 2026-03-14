@@ -176,52 +176,55 @@ function ConsolidationToolEditor({ metadata, onUpdate, isDark, inputClass }) {
         </button>
       </div>
 
-      <div className="space-y-2">
-        {tools.map((tool, i) => (
-          <div key={i} className={`p-2 rounded-lg border ${isDark ? 'bg-white/[0.03] border-white/10' : 'bg-elastic-dev-blue/[0.02] border-elastic-dev-blue/10'}`}>
-            <div className="flex gap-2 mb-1.5">
+      <div className="grid grid-cols-2 gap-x-4 gap-y-2 items-start">
+        {/* Column headers */}
+        <p className={`text-xs font-semibold ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Replace</p>
+        <p className={`text-xs font-semibold ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Integrate</p>
+
+        {/* Replace column */}
+        <div className="space-y-2">
+          {tools.map((tool, i) => tool.type !== 'consolidate' ? null : (
+            <div key={i} className={`p-2 rounded-lg border ${isDark ? 'bg-white/[0.03] border-white/10' : 'bg-elastic-dev-blue/[0.02] border-elastic-dev-blue/10'}`}>
               <input
                 type="text"
                 value={tool.name}
                 onChange={(e) => updateTool(i, 'name', e.target.value)}
                 placeholder="Tool name"
-                className={`flex-1 px-2 py-1 text-xs rounded border ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-white/30' : 'bg-white border-elastic-dev-blue/10 text-elastic-dev-blue placeholder-elastic-dev-blue/30'}`}
+                className={`w-full px-2 py-1 text-xs rounded border mb-1.5 ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-white/30' : 'bg-white border-elastic-dev-blue/10 text-elastic-dev-blue placeholder-elastic-dev-blue/30'}`}
               />
               <input
                 type="text"
                 value={tool.category}
                 onChange={(e) => updateTool(i, 'category', e.target.value)}
                 placeholder="Category"
-                className={`w-24 px-2 py-1 text-xs rounded border ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-white/30' : 'bg-white border-elastic-dev-blue/10 text-elastic-dev-blue placeholder-elastic-dev-blue/30'}`}
+                className={`w-full px-2 py-1 text-xs rounded border ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-white/30' : 'bg-white border-elastic-dev-blue/10 text-elastic-dev-blue placeholder-elastic-dev-blue/30'}`}
               />
-              <button onClick={() => removeTool(i)} className={`px-2 rounded text-xs ${isDark ? 'text-white/30 hover:text-red-400' : 'text-elastic-dev-blue/30 hover:text-red-500'}`}>
-                <FontAwesomeIcon icon={faTrash} />
-              </button>
             </div>
-            <div className="flex gap-1.5">
-              {typeBtn(tool, i, 'consolidate')}
-              {typeBtn(tool, i, 'integrate')}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {tools.length < 12 && (
-        <div className="flex gap-2">
-          <button
-            onClick={() => addTool('consolidate')}
-            className={`flex-1 flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg text-xs border border-dashed transition-all ${isDark ? 'border-white/20 text-white/40 hover:border-white/40 hover:text-white/60' : 'border-elastic-dev-blue/20 text-elastic-dev-blue/40 hover:border-elastic-dev-blue/40'}`}
-          >
-            <FontAwesomeIcon icon={faPlus} className="text-[10px]" /> Replace
-          </button>
-          <button
-            onClick={() => addTool('integrate')}
-            className={`flex-1 flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg text-xs border border-dashed transition-all ${isDark ? 'border-white/20 text-white/40 hover:border-white/40 hover:text-white/60' : 'border-elastic-dev-blue/20 text-elastic-dev-blue/40 hover:border-elastic-dev-blue/40'}`}
-          >
-            <FontAwesomeIcon icon={faPlus} className="text-[10px]" /> Integrate
-          </button>
+          ))}
         </div>
-      )}
+
+        {/* Integrate column */}
+        <div className="space-y-2">
+          {tools.map((tool, i) => tool.type !== 'integrate' ? null : (
+            <div key={i} className={`p-2 rounded-lg border ${isDark ? 'bg-white/[0.03] border-white/10' : 'bg-elastic-dev-blue/[0.02] border-elastic-dev-blue/10'}`}>
+              <input
+                type="text"
+                value={tool.name}
+                onChange={(e) => updateTool(i, 'name', e.target.value)}
+                placeholder="Tool name"
+                className={`w-full px-2 py-1 text-xs rounded border mb-1.5 ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-white/30' : 'bg-white border-elastic-dev-blue/10 text-elastic-dev-blue placeholder-elastic-dev-blue/30'}`}
+              />
+              <input
+                type="text"
+                value={tool.category}
+                onChange={(e) => updateTool(i, 'category', e.target.value)}
+                placeholder="Category"
+                className={`w-full px-2 py-1 text-xs rounded border ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-white/30' : 'bg-white border-elastic-dev-blue/10 text-elastic-dev-blue placeholder-elastic-dev-blue/30'}`}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
@@ -2146,6 +2149,190 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
       {selectedScene === 'consolidation' && (
         <div className="space-y-6 mt-6">
           <h3 className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
+            Consolidation Scene — Header
+          </h3>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Eyebrow Text</label>
+            <input
+              type="text"
+              value={sceneMetadata?.consolidation?.eyebrow || ''}
+              onChange={(e) => onUpdateSceneMetadata('consolidation', { ...sceneMetadata?.consolidation, eyebrow: e.target.value })}
+              className={inputClass}
+              placeholder="Unified Platform"
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Heading — Plain</label>
+            <input
+              type="text"
+              value={sceneMetadata?.consolidation?.headingPlain || ''}
+              onChange={(e) => onUpdateSceneMetadata('consolidation', { ...sceneMetadata?.consolidation, headingPlain: e.target.value })}
+              className={inputClass}
+              placeholder="Consolidate Point Solutions, "
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Heading — Accent</label>
+            <input
+              type="text"
+              value={sceneMetadata?.consolidation?.headingAccent || ''}
+              onChange={(e) => onUpdateSceneMetadata('consolidation', { ...sceneMetadata?.consolidation, headingAccent: e.target.value })}
+              className={inputClass}
+              placeholder="Centralize Data Workflows"
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Subtitle</label>
+            <textarea
+              value={sceneMetadata?.consolidation?.subtitle || ''}
+              onChange={(e) => onUpdateSceneMetadata('consolidation', { ...sceneMetadata?.consolidation, subtitle: e.target.value })}
+              className={textareaClass}
+              rows={2}
+              placeholder="Comprehensive capabilities to replace disparate tools while integrating with your broader ecosystem"
+            />
+          </div>
+
+          <h3 className={`text-sm font-semibold pt-2 ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
+            Before State (Tool Sprawl)
+          </h3>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Sidebar Title</label>
+            <input
+              type="text"
+              value={sceneMetadata?.consolidation?.beforeTitle || ''}
+              onChange={(e) => onUpdateSceneMetadata('consolidation', { ...sceneMetadata?.consolidation, beforeTitle: e.target.value })}
+              className={inputClass}
+              placeholder="Tool Sprawl"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Pain Points (5 items)</label>
+            {['Multiple licenses & contracts', 'Data silos & duplication', 'Context switching', 'Integration overhead', 'Inconsistent alerting'].map((defaultVal, i) => (
+              <input
+                key={i}
+                type="text"
+                value={sceneMetadata?.consolidation?.painPoints?.[i] || ''}
+                onChange={(e) => {
+                  const current = sceneMetadata?.consolidation?.painPoints || []
+                  const updated = [...current]
+                  updated[i] = e.target.value
+                  onUpdateSceneMetadata('consolidation', { ...sceneMetadata?.consolidation, painPoints: updated })
+                }}
+                className={inputClass}
+                placeholder={defaultVal}
+              />
+            ))}
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Stat Value</label>
+              <input
+                type="text"
+                value={sceneMetadata?.consolidation?.beforeStatValue || ''}
+                onChange={(e) => onUpdateSceneMetadata('consolidation', { ...sceneMetadata?.consolidation, beforeStatValue: e.target.value })}
+                className={inputClass}
+                placeholder="76+"
+              />
+            </div>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Stat Label</label>
+              <input
+                type="text"
+                value={sceneMetadata?.consolidation?.beforeStatLabel || ''}
+                onChange={(e) => onUpdateSceneMetadata('consolidation', { ...sceneMetadata?.consolidation, beforeStatLabel: e.target.value })}
+                className={inputClass}
+                placeholder="Avg. security tools per org"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Stat Source</label>
+            <input
+              type="text"
+              value={sceneMetadata?.consolidation?.beforeStatSource || ''}
+              onChange={(e) => onUpdateSceneMetadata('consolidation', { ...sceneMetadata?.consolidation, beforeStatSource: e.target.value })}
+              className={inputClass}
+              placeholder="IBM / Palo Alto Networks"
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Chaos Label</label>
+            <input
+              type="text"
+              value={sceneMetadata?.consolidation?.chaosLabel || ''}
+              onChange={(e) => onUpdateSceneMetadata('consolidation', { ...sceneMetadata?.consolidation, chaosLabel: e.target.value })}
+              className={inputClass}
+              placeholder="Disconnected tools • Duplicated data • Fragmented workflows"
+            />
+          </div>
+
+          <h3 className={`text-sm font-semibold pt-2 ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
+            After State (With Elastic)
+          </h3>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Sidebar Title</label>
+            <input
+              type="text"
+              value={sceneMetadata?.consolidation?.afterTitle || ''}
+              onChange={(e) => onUpdateSceneMetadata('consolidation', { ...sceneMetadata?.consolidation, afterTitle: e.target.value })}
+              className={inputClass}
+              placeholder="With Elastic"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Benefit Text (5 items)</label>
+            {['Reduced licensing costs', 'Faster triage & response', 'Unified data layer', 'No data duplication', 'Shared context'].map((defaultVal, i) => (
+              <input
+                key={i}
+                type="text"
+                value={sceneMetadata?.consolidation?.benefitTexts?.[i] || ''}
+                onChange={(e) => {
+                  const current = sceneMetadata?.consolidation?.benefitTexts || []
+                  const updated = [...current]
+                  updated[i] = e.target.value
+                  onUpdateSceneMetadata('consolidation', { ...sceneMetadata?.consolidation, benefitTexts: updated })
+                }}
+                className={inputClass}
+                placeholder={defaultVal}
+              />
+            ))}
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Stat Value</label>
+              <input
+                type="text"
+                value={sceneMetadata?.consolidation?.afterStatValue || ''}
+                onChange={(e) => onUpdateSceneMetadata('consolidation', { ...sceneMetadata?.consolidation, afterStatValue: e.target.value })}
+                className={inputClass}
+                placeholder="3-5"
+              />
+            </div>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Stat Label</label>
+              <input
+                type="text"
+                value={sceneMetadata?.consolidation?.afterStatLabel || ''}
+                onChange={(e) => onUpdateSceneMetadata('consolidation', { ...sceneMetadata?.consolidation, afterStatLabel: e.target.value })}
+                className={inputClass}
+                placeholder="Vendors eliminated on average"
+              />
+            </div>
+          </div>
+
+          <h3 className={`text-sm font-semibold pt-2 ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
             Consolidation Scene — Tools
           </h3>
           <ConsolidationToolEditor

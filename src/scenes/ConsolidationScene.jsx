@@ -85,10 +85,30 @@ const afterBenefits = [
   { icon: faCircleNodes, text: 'Shared context', color: '#FF957D' },
 ]
 
-function ConsolidationScene({ tools: toolsProp } = {}) {
+function ConsolidationScene({ tools: toolsProp, metadata = {} } = {}) {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
   const allTools = toolsProp || allToolsDefault
+
+  const eyebrow        = metadata.eyebrow        || 'Unified Platform'
+  const headingPlain   = metadata.headingPlain   || 'Consolidate Point Solutions, '
+  const headingAccent  = metadata.headingAccent  || 'Centralize Data Workflows'
+  const subtitle       = metadata.subtitle       || 'Comprehensive capabilities to replace disparate tools while integrating with your broader ecosystem'
+  const beforeTitle    = metadata.beforeTitle    || 'Tool Sprawl'
+  const painPoints     = metadata.painPoints     || beforePainPoints
+  const beforeStatValue  = metadata.beforeStatValue  || '76+'
+  const beforeStatLabel  = metadata.beforeStatLabel  || 'Avg. security tools per org'
+  const beforeStatSource = metadata.beforeStatSource || 'IBM / Palo Alto Networks'
+  const chaosLabel     = metadata.chaosLabel     || 'Disconnected tools • Duplicated data • Fragmented workflows'
+  const afterTitle     = metadata.afterTitle     || 'With Elastic'
+  const benefitTexts   = metadata.benefitTexts   || afterBenefits.map(b => b.text)
+  const afterStatValue = metadata.afterStatValue || '3-5'
+  const afterStatLabel = metadata.afterStatLabel || 'Vendors eliminated on average'
+
+  const resolvedAfterBenefits = afterBenefits.map((b, i) => ({
+    ...b,
+    text: benefitTexts[i] ?? b.text,
+  }))
   const [isConsolidated, setIsConsolidated] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false)
   const toolRefs = useRef([])
@@ -173,14 +193,14 @@ function ConsolidationScene({ tools: toolsProp } = {}) {
         {/* Header */}
         <div className="text-center flex-shrink-0">
           <p className={`text-sm font-semibold uppercase tracking-eyebrow pt-8 mb-4 ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}>
-            Unified Platform
+            {eyebrow}
           </p>
           <h2 className="font-headline text-4xl md:text-5xl font-extrabold mb-4">
-            <span className={isDark ? 'text-white' : 'text-elastic-dark-ink'}>Consolidate Point Solutions, </span>
-            <span className={isDark ? 'text-elastic-teal' : 'text-elastic-blue'}>Centralize Data Workflows</span>
+            <span className={isDark ? 'text-white' : 'text-elastic-dark-ink'}>{headingPlain}</span>
+            <span className={isDark ? 'text-elastic-teal' : 'text-elastic-blue'}>{headingAccent}</span>
           </h2>
           <p className={`text-paragraph text-lg md:text-xl mx-auto pt-1 pb-8 ${isDark ? 'text-elastic-light-grey' : 'text-elastic-ink'}`}>
-            Comprehensive capabilities to replace disparate tools while integrating with your broader ecosystem
+            {subtitle}
           </p>
         </div>
 
@@ -201,11 +221,11 @@ function ConsolidationScene({ tools: toolsProp } = {}) {
                   <div className="flex items-center gap-2 mb-4">
                     <FontAwesomeIcon icon={faExclamationTriangle} className={isDark ? 'text-red-400' : 'text-elastic-blue'} />
                     <span className={`font-bold text-lg ${isDark ? 'text-white' : 'text-elastic-dev-blue'}`}>
-                      Tool Sprawl
+                      {beforeTitle}
                     </span>
                   </div>
                   <div className="space-y-2">
-                    {beforePainPoints.map((point, i) => (
+                    {painPoints.map((point, i) => (
                       <div
                         key={point}
                         className="flex items-center gap-2"
@@ -218,12 +238,12 @@ function ConsolidationScene({ tools: toolsProp } = {}) {
                     ))}
                   </div>
                   <div className={`mt-6 p-3 rounded-xl ${isDark ? 'bg-white/5' : 'bg-elastic-dev-blue/5'}`}>
-                    <div className={`text-3xl font-bold ${isDark ? 'text-red-400' : 'text-elastic-blue'}`}>76+</div>
+                    <div className={`text-3xl font-bold ${isDark ? 'text-red-400' : 'text-elastic-blue'}`}>{beforeStatValue}</div>
                     <div className={`text-xs ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
-                      Avg. security tools per org
+                      {beforeStatLabel}
                     </div>
                     <div className={`text-[10px] mt-1 ${isDark ? 'text-white/30' : 'text-elastic-dev-blue/30'}`}>
-                      IBM / Palo Alto Networks
+                      {beforeStatSource}
                     </div>
                   </div>
                 </div>
@@ -235,11 +255,11 @@ function ConsolidationScene({ tools: toolsProp } = {}) {
                   <div className="flex items-center gap-2 mb-4">
                     <FontAwesomeIcon icon={faCheck} className={isDark ? 'text-elastic-teal' : 'text-elastic-blue'} />
                     <span className={`font-bold text-lg ${isDark ? 'text-white' : 'text-elastic-dev-blue'}`}>
-                      With Elastic
+                      {afterTitle}
                     </span>
                   </div>
                   <div className="space-y-3">
-                    {afterBenefits.map((benefit, i) => (
+                    {resolvedAfterBenefits.map((benefit, i) => (
                       <div
                         key={benefit.text}
                         className="flex items-center gap-3"
@@ -257,9 +277,9 @@ function ConsolidationScene({ tools: toolsProp } = {}) {
                     ))}
                   </div>
                   <div className={`mt-6 p-3 rounded-xl ${isDark ? 'bg-white/5' : 'bg-elastic-dev-blue/5'}`}>
-                    <div className={`text-3xl font-bold ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}>3-5</div>
+                    <div className={`text-3xl font-bold ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}>{afterStatValue}</div>
                     <div className={`text-xs ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
-                      Vendors eliminated on average
+                      {afterStatLabel}
                     </div>
                   </div>
                 </div>
@@ -342,7 +362,7 @@ function ConsolidationScene({ tools: toolsProp } = {}) {
                     className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center"
                   >
                     <div className={`text-sm ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>
-                      Disconnected tools • Duplicated data • Fragmented workflows
+                      {chaosLabel}
                     </div>
                   </div>
                 </div>
