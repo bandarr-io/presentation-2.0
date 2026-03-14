@@ -171,17 +171,15 @@ function ConsolidationScene({ tools: toolsProp } = {}) {
     <div className="scene !py-4">
       <div className="max-w-[98%] mx-auto w-full h-full flex flex-col">
         {/* Header */}
-        <div
-          className="text-center"
-        >
-          <span className={`text-eyebrow text-sm block pt-8 mb-4 ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}>
+        <div className="text-center flex-shrink-0">
+          <p className={`text-sm font-semibold uppercase tracking-eyebrow pt-8 mb-4 ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}>
             Unified Platform
-          </span>
-          <h2 className={`text-headline text-4xl md:text-5xl font-extrabold mb-4 ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
-            <span className="text-elastic-blue">Consolidate</span> Point Solutions,{' '}
-            <span className={isDark ? 'text-elastic-teal' : 'text-elastic-blue'}>Centralize</span> Data Workflows
+          </p>
+          <h2 className="font-headline text-4xl md:text-5xl font-extrabold mb-4">
+            <span className={isDark ? 'text-white' : 'text-elastic-dark-ink'}>Consolidate Point Solutions, </span>
+            <span className={isDark ? 'text-elastic-teal' : 'text-elastic-blue'}>Centralize Data Workflows</span>
           </h2>
-          <p className={`text-paragraph text-lg md:text-xl max-w-3xl mx-auto pt-1 pb-8 ${isDark ? 'text-elastic-light-grey' : 'text-elastic-ink'}`}>
+          <p className={`text-paragraph text-lg md:text-xl mx-auto pt-1 pb-8 ${isDark ? 'text-elastic-light-grey' : 'text-elastic-ink'}`}>
             Comprehensive capabilities to replace disparate tools while integrating with your broader ecosystem
           </p>
         </div>
@@ -286,7 +284,7 @@ function ConsolidationScene({ tools: toolsProp } = {}) {
           {/* Center - Visualization */}
           <div
             ref={vizRef}
-            className={`flex-1 max-w-5xl rounded-2xl border p-6 relative overflow-hidden ${isDark ? 'bg-white/[0.02] border-white/10' : 'bg-white/50 border-elastic-dev-blue/10'}`}
+            className={`flex-1 rounded-2xl border p-6 relative overflow-hidden ${isDark ? 'bg-white/[0.02] border-white/10' : 'bg-white/50 border-elastic-dev-blue/10'}`}
           >
             {/* Before state - Chaotic scattered tools */}
             
@@ -494,6 +492,24 @@ function ConsolidationScene({ tools: toolsProp } = {}) {
                         </div>
                       ))}
                     </div>
+
+                    {/* Platform Capabilities legend */}
+                    <div className="flex items-center justify-center gap-x-4 mt-4 pt-3 border-t border-white/10 w-full whitespace-nowrap">
+                      {[
+                        { label: 'SIEM & Security Analytics', color: '#FF957D' },
+                        { label: 'Observability & APM', color: '#F04E98' },
+                        { label: 'Enterprise Search', color: '#FEC514' },
+                        { label: 'AI-Driven Detection', color: '#48EFCF' },
+                        { label: 'Unified Data Layer', color: '#0B64DD' },
+                      ].map((cap) => (
+                        <div key={cap.label} className="flex items-center gap-1.5">
+                          <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: cap.color }} />
+                          <span className={`text-xs ${isDark ? 'text-white/60' : 'text-elastic-dev-blue/60'}`}>
+                            {cap.label}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
 
                   {/* Arrows flowing out */}
@@ -523,31 +539,7 @@ function ConsolidationScene({ tools: toolsProp } = {}) {
               )}
             
           </div>
-          </div>
 
-          {/* Bottom bar - Platform info */}
-          <div 
-            className="flex items-center justify-center gap-6 px-4 py-3"
-          >
-            <div className={`text-xs uppercase tracking-wider ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>
-              Platform Capabilities
-            </div>
-            <div className="flex items-center gap-4">
-              {[
-                { label: 'SIEM & Security Analytics', color: '#FF957D' },
-                { label: 'Observability & APM', color: '#F04E98' },
-                { label: 'Enterprise Search', color: '#FEC514' },
-                { label: 'AI-Driven Detection', color: '#48EFCF' },
-                { label: 'Unified Data Layer', color: '#0B64DD' },
-              ].map((cap) => (
-                <div key={cap.label} className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full" style={{ backgroundColor: cap.color }} />
-                  <span className={`text-xs ${isDark ? 'text-white/70' : 'text-elastic-dev-blue/70'}`}>
-                    {cap.label}
-                  </span>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </div>
