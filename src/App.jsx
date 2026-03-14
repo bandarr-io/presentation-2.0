@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { ThemeProvider, useTheme } from './context/ThemeContext'
 import { TeamProvider } from './context/TeamContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -920,7 +921,30 @@ function AppContent() {
     resetToDefault
   } = useSceneConfiguration(allScenes)
 
-  const [currentScene, setCurrentScene] = useState(0)
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  const scenes = enabledScenes
+
+  const sceneIdFromUrl = location.pathname.slice(1)
+  const currentScene = (() => {
+    const idx = scenes.findIndex(s => s.id === sceneIdFromUrl)
+    return idx >= 0 ? idx : 0
+  })()
+
+  // Redirect to first enabled scene if URL is missing or unrecognised
+  useEffect(() => {
+    const idx = scenes.findIndex(s => s.id === sceneIdFromUrl)
+    if (idx === -1 && scenes.length > 0) {
+      navigate(`/${scenes[0].id}`, { replace: true })
+    }
+  }, [sceneIdFromUrl, scenes, navigate])
+
+  const navigateToScene = (index) => {
+    const clamped = Math.max(0, Math.min(index, scenes.length - 1))
+    navigate(`/${scenes[clamped].id}`)
+  }
+
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [securityStage, setSecurityStage] = useState(0)
   const [securityPlaySignal, setSecurityPlaySignal] = useState(0)
@@ -943,8 +967,6 @@ function AppContent() {
   const [dataMeshActivateMeshState, setDataMeshActivateMeshState] = useState({ canActivate: false })
   const [dataTieringIsRunning, setDataTieringIsRunning] = useState(false)
   const [dataTieringResetSignal, setDataTieringResetSignal] = useState(0)
-  
-  const scenes = enabledScenes
   
   // Pass props to scenes
   const Scene = scenes[currentScene]?.component || HeroScene
@@ -976,7 +998,7 @@ function AppContent() {
   } else if (currentSceneId === 'data-mesh') {
     sceneProps = {
       scenes: enabledScenes,
-      onNavigate: (i) => setCurrentScene(i),
+      onNavigate: (i) => navigateToScene(i),
       metadata: sceneMetadata?.['data-mesh'] || {},
       runQuerySignal: dataMeshRunQuerySignal,
       onQueryStateChange: setDataMeshQueryState,
@@ -1028,7 +1050,7 @@ function AppContent() {
     } else {
       setSecurityStage(0)
       setSchemaStage(0)
-      setCurrentScene((prev) => Math.min(prev + 1, scenes.length - 1))
+      navigateToScene(currentScene + 1)
     }
   }
 
@@ -1040,7 +1062,7 @@ function AppContent() {
     } else {
       setSecurityStage(0)
       setSchemaStage(0)
-      setCurrentScene((prev) => Math.max(prev - 1, 0))
+      navigateToScene(currentScene - 1)
     }
   }
 
@@ -1294,7 +1316,7 @@ function AppContent() {
               {scenes.map((scene, index) => (
                 <div key={scene.id} className="relative group flex flex-col items-center">
                   <button
-                    onClick={() => setCurrentScene(index)}
+                    onClick={() => navigateToScene(index)}
                     className={`w-3 h-3 rounded-full transition-all duration-300 ${
                       index === currentScene 
                         ? 'bg-elastic-blue dark:bg-elastic-teal scale-125' 
