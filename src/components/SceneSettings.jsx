@@ -1243,6 +1243,7 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
           <option value="schema">Schema</option>
           <option value="access-control">Access Control</option>
           <option value="consolidation">Consolidation</option>
+          <option value="esql">ES|QL</option>
         </select>
       </div>
 
@@ -2464,6 +2465,105 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
               )
             })}
           </div>
+        </div>
+      )}
+
+      {selectedScene === 'esql' && (
+        <div className="space-y-6 mt-6">
+          <h3 className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
+            ES|QL Scene — Header
+          </h3>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Eyebrow Text</label>
+            <input
+              type="text"
+              value={sceneMetadata?.esql?.eyebrow || ''}
+              onChange={(e) => onUpdateSceneMetadata('esql', { ...sceneMetadata?.esql, eyebrow: e.target.value })}
+              className={inputClass}
+              placeholder="ES|QL · Elasticsearch Query Language"
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Heading — Plain</label>
+            <input
+              type="text"
+              value={sceneMetadata?.esql?.headingPlain || ''}
+              onChange={(e) => onUpdateSceneMetadata('esql', { ...sceneMetadata?.esql, headingPlain: e.target.value })}
+              className={inputClass}
+              placeholder="Transform Your "
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Heading — Accent</label>
+            <input
+              type="text"
+              value={sceneMetadata?.esql?.headingAccent || ''}
+              onChange={(e) => onUpdateSceneMetadata('esql', { ...sceneMetadata?.esql, headingAccent: e.target.value })}
+              className={inputClass}
+              placeholder="Investigation Workflows."
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Subtitle</label>
+            <textarea
+              rows={2}
+              value={sceneMetadata?.esql?.subtitle || ''}
+              onChange={(e) => onUpdateSceneMetadata('esql', { ...sceneMetadata?.esql, subtitle: e.target.value })}
+              className={inputClass}
+              placeholder="A next-generation piped query language. Search, aggregate, transform, and visualize from a single query."
+            />
+          </div>
+
+          <h3 className={`text-sm font-semibold pt-2 ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
+            ES|QL Scene — Value Propositions
+          </h3>
+
+          {[
+            { label: 'Card 1', titleKey: 'valuePropTitle0', descKey: 'valuePropDesc0', titlePlaceholder: 'Faster queries, at scale.', descPlaceholder: 'Multi-stage concurrent execution delivers greater speed and efficiency across billions of events. No pre-aggregation required.' },
+            { label: 'Card 2', titleKey: 'valuePropTitle1', descKey: 'valuePropDesc1', titlePlaceholder: 'One query. One window.', descPlaceholder: 'Search, aggregate, calculate, transform, and visualize from a single pipeline. Refine as you go.' },
+            { label: 'Card 3', titleKey: 'valuePropTitle2', descKey: 'valuePropDesc2', titlePlaceholder: 'Lookup, join, and transform.', descPlaceholder: 'Perform data transformations in one query with lookup and joins. No convoluted scripts. No redundant requests.' },
+            { label: 'Card 4', titleKey: 'valuePropTitle3', descKey: 'valuePropDesc3', titlePlaceholder: 'More accurate alerting.', descPlaceholder: 'Review trends over isolated incidents to reduce false positives and surface more actionable notifications.' },
+          ].map(({ label, titleKey, descKey, titlePlaceholder, descPlaceholder }, i) => {
+            const titles = sceneMetadata?.esql?.valuePropTitles || []
+            const descs  = sceneMetadata?.esql?.valuePropDescriptions || []
+            return (
+              <div key={i} className="space-y-3">
+                <p className={`text-xs font-semibold uppercase tracking-wider ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>{label}</p>
+                <div>
+                  <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Title</label>
+                  <input
+                    type="text"
+                    value={titles[i] || ''}
+                    onChange={(e) => {
+                      const next = [...titles]
+                      next[i] = e.target.value
+                      onUpdateSceneMetadata('esql', { ...sceneMetadata?.esql, valuePropTitles: next })
+                    }}
+                    className={inputClass}
+                    placeholder={titlePlaceholder}
+                  />
+                </div>
+                <div>
+                  <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Description</label>
+                  <textarea
+                    rows={2}
+                    value={descs[i] || ''}
+                    onChange={(e) => {
+                      const next = [...descs]
+                      next[i] = e.target.value
+                      onUpdateSceneMetadata('esql', { ...sceneMetadata?.esql, valuePropDescriptions: next })
+                    }}
+                    className={inputClass}
+                    placeholder={descPlaceholder}
+                  />
+                </div>
+              </div>
+            )
+          })}
         </div>
       )}
     </div>

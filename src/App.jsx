@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { ThemeProvider, useTheme } from './context/ThemeContext'
 import { TeamProvider } from './context/TeamContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSun, faMoon, faMagnifyingGlass, faGear, faMagnifyingGlass as faSearch, faChartColumn, faBrain, faDna, faShield, faClock, faRocket, faCoins, faForwardStep, faChartLine, faPlay, faPause, faRotateRight, faChevronRight, faBolt, faLayerGroup, faTimes, faCircleNodes } from '@fortawesome/free-solid-svg-icons'
+import { faSun, faMoon, faMagnifyingGlass, faGear, faMagnifyingGlass as faSearch, faChartColumn, faBrain, faDna, faShield, faClock, faRocket, faCoins, faForwardStep, faChartLine, faPlay, faPause, faRotateRight, faChevronRight, faChevronLeft, faBolt, faLayerGroup, faTimes, faCircleNodes } from '@fortawesome/free-solid-svg-icons'
 import SceneSettings, { useSceneConfiguration } from './components/SceneSettings'
 
 import TeamScene from './scenes/TeamScene'
@@ -17,6 +17,7 @@ import DataMeshScene from './scenes/DataMeshScene'
 import LicensingScene from './scenes/LicensingScene'
 import DataTieringScene from './scenes/DataTieringScene'
 import ConsolidationScene from './scenes/ConsolidationScene'
+import ESQLScene from './scenes/ESQLScene'
 
 // Hero Scene with typing animation
 const HeroScene = ({ metadata = {} }) => {
@@ -906,6 +907,13 @@ function AppContent() {
       duration: '3 min',
       description: 'Replace fragmented tooling with a unified Elastic platform'
     },
+    {
+      id: 'esql',
+      component: ESQLScene,
+      title: 'ES|QL',
+      duration: '4 min',
+      description: 'One pipeline from raw data to answers — ES|QL query language'
+    },
   ]
 
   const {
@@ -954,6 +962,8 @@ function AppContent() {
   const [schemaStage, setSchemaStage] = useState(0)
   const SECURITY_STAGE_COUNT = 3
   const SCHEMA_STAGE_COUNT = 2
+  const ESQL_STAGE_COUNT = 6
+  const [esqlStage, setEsqlStage] = useState(0)
   const [businessValueSelectedCard, setBusinessValueSelectedCard] = useState(null)
   const [businessValueShowUnified, setBusinessValueShowUnified] = useState(false)
   const [dataExplosionVerdictSignal, setDataExplosionVerdictSignal] = useState(0)
@@ -1041,6 +1051,12 @@ function AppContent() {
       tools: sceneMetadata?.consolidation?.tools,
       metadata: sceneMetadata?.consolidation || {},
     }
+  } else if (currentSceneId === 'esql') {
+    sceneProps = {
+      metadata: sceneMetadata?.esql || {},
+      externalStage: esqlStage,
+      onStageChange: setEsqlStage,
+    }
   }
 
   const handleNext = () => {
@@ -1051,6 +1067,7 @@ function AppContent() {
     } else {
       setSecurityStage(0)
       setSchemaStage(0)
+      setEsqlStage(0)
       navigateToScene(currentScene + 1)
     }
   }
@@ -1293,6 +1310,36 @@ function AppContent() {
               >
                 <FontAwesomeIcon icon={faForwardStep} className="text-lg" />
               </button>
+            )}
+
+            {/* Stage Back/Forward - only visible on ES|QL scene */}
+            {currentSceneId === 'esql' && (
+              <>
+                <button
+                  onClick={() => setEsqlStage(s => Math.max(0, s - 1))}
+                  disabled={esqlStage === 0}
+                  className={`w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed ${
+                    theme === 'dark'
+                      ? 'bg-elastic-teal/20 hover:bg-elastic-teal/30 text-elastic-teal'
+                      : 'bg-elastic-blue/10 hover:bg-elastic-blue/20 text-elastic-blue'
+                  }`}
+                  title="Previous stage"
+                >
+                  <FontAwesomeIcon icon={faChevronLeft} className="text-sm" />
+                </button>
+                <button
+                  onClick={() => setEsqlStage(s => Math.min(ESQL_STAGE_COUNT - 1, s + 1))}
+                  disabled={esqlStage === ESQL_STAGE_COUNT - 1}
+                  className={`w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed ${
+                    theme === 'dark'
+                      ? 'bg-elastic-teal/20 hover:bg-elastic-teal/30 text-elastic-teal'
+                      : 'bg-elastic-blue/10 hover:bg-elastic-blue/20 text-elastic-blue'
+                  }`}
+                  title="Next stage"
+                >
+                  <FontAwesomeIcon icon={faChevronRight} className="text-sm" />
+                </button>
+              </>
             )}
           </div>
           
