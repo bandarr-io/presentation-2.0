@@ -711,84 +711,90 @@ const AgendaScene = ({ scenes = [], sceneMetadata = {}, customDurations = {} }) 
     }
   })
 
+  const count = agendaItems.length
+  const gridCols = count <= 3 ? 'grid-cols-1'
+                 : count <= 6 ? 'grid-cols-2'
+                 : 'grid-cols-3'
+  // Card density tiers: comfortable (≤6), compact (7-9), tight (10+)
+  const isCompact = count > 6
+  const isTight   = count > 9
+
   return (
-    <div className="flex flex-col items-center justify-center h-full w-full py-12 overflow-y-auto">
-      <div className="w-full max-w-[900px]">
-        {/* Header */}
-        <div className="text-center">
-          <p className={`text-sm font-semibold uppercase tracking-eyebrow pt-8 mb-4 ${
-            isDark ? 'text-elastic-teal' : 'text-elastic-blue'
-          }`}>
-            OVERVIEW
+    <div className="flex flex-col h-full w-full px-6 py-4 overflow-hidden">
+            {/* Header */}
+            <div className="text-center flex-shrink-0">
+          <p className={`text-sm font-semibold uppercase tracking-eyebrow pt-8 mb-4 ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}>
+          OVERVIEW
           </p>
           <h2 className="font-headline text-4xl md:text-5xl font-extrabold mb-4">
-            <span className={isDark ? 'text-white' : 'text-elastic-dark-ink'}>Today's </span>
-            <span className={isDark ? 'text-elastic-teal' : 'text-elastic-blue'}>Agenda</span>
+          <span className={isDark ? 'text-white' : 'text-elastic-dark-ink'}>Today's </span>
+          <span className={isDark ? 'text-elastic-teal' : 'text-elastic-blue'}>Agenda</span>
           </h2>
-          <p className={`text-paragraph text-lg md:text-xl max-w-3xl mx-auto pt-1 pb-8 ${isDark ? 'text-elastic-light-grey' : 'text-elastic-ink'}`}>
-            A roadmap for our conversation.
-          </p>
-        </div>
+        <p className={`text-paragraph text-lg md:text-xl mx-auto pt-1 pb-8 ${isDark ? 'text-elastic-light-grey' : 'text-elastic-ink'}`}>
+          A roadmap for our conversation.
+        </p>
+      </div>
 
-        {/* Agenda Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {agendaItems.map((item, index) => (
+      {/* Agenda Grid */}
+      <div className={`grid ${gridCols} ${isTight ? 'gap-1.5' : isCompact ? 'gap-2' : 'gap-3'} flex-1 min-h-0 content-start`}>
+        {agendaItems.map((item, index) => (
+          <div
+            key={item.id}
+            className={`relative rounded-xl transition-all duration-300 ${
+              isTight ? 'p-2' : isCompact ? 'p-2.5' : 'p-3'
+            } ${
+              isDark
+                ? 'bg-white/[0.03] border border-white/10 hover:bg-white/[0.05]'
+                : 'bg-white border border-elastic-dev-blue/10 hover:border-elastic-blue/20 hover:shadow-md'
+            }`}
+          >
+            {/* Left accent bar */}
             <div
-              key={item.id}
-              className={`relative rounded-xl p-4 transition-all duration-300 group ${
-                isDark 
-                  ? 'bg-white/[0.03] border border-white/10 hover:bg-white/[0.05]'
-                  : 'bg-white border border-elastic-dev-blue/10 hover:border-elastic-blue/20 hover:shadow-md'
-              }`}
-            >
-              {/* Left accent bar */}
-              <div
-                className="absolute left-0 top-4 bottom-4 w-1 rounded-r"
-                style={{ backgroundColor: isDark ? accentColors[index % accentColors.length] : '#0B64DD' }}
-              />
-              
-              <div className="flex items-start justify-between gap-4 pl-3">
-                <div className="flex items-start gap-3 flex-1 min-w-0">
-                  {/* Number */}
-                  <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
-                    isDark ? 'bg-white/[0.05]' : 'bg-elastic-blue/[0.05]'
-                  }`}>
-                    <span className={`text-xs font-mono ${
-                      isDark ? 'text-white/50' : 'text-elastic-blue/50'
-                    }`}>
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                  </div>
-                  
-                  {/* Content */}
-                  <div className="flex-1 min-w-0 pt-1">
-                    <h3 className={`font-bold text-lg mb-1 ${
-                      isDark ? 'text-white' : 'text-elastic-dark-ink'
-                    }`}>
-                      {item.title}
-                    </h3>
-                    {item.description && (
-                      <p className={`text-sm leading-relaxed ${
-                        isDark ? 'text-white/60' : 'text-elastic-ink/70'
-                      }`}>
-                        {item.description}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                
-                {/* Duration */}
-                {item.duration && (
-                  <div className={`flex-shrink-0 text-sm font-medium pt-1 ${
+              className="absolute left-0 top-2.5 bottom-2.5 w-1 rounded-r"
+              style={{ backgroundColor: isDark ? accentColors[index % accentColors.length] : '#0B64DD' }}
+            />
+
+            <div className="flex items-start justify-between gap-2 pl-3">
+              <div className="flex items-start gap-2 flex-1 min-w-0">
+                {/* Number */}
+                <div className={`flex-shrink-0 rounded-full flex items-center justify-center ${
+                  isTight ? 'w-6 h-6' : isCompact ? 'w-7 h-7' : 'w-9 h-9'
+                } ${isDark ? 'bg-white/[0.05]' : 'bg-elastic-blue/[0.05]'}`}>
+                  <span className={`font-mono ${isTight ? 'text-[9px]' : 'text-[10px]'} ${
                     isDark ? 'text-white/50' : 'text-elastic-blue/50'
                   }`}>
-                    {item.duration}
-                  </div>
-                )}
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <h3 className={`font-bold leading-snug truncate ${
+                    isTight ? 'text-sm' : isCompact ? 'text-sm' : 'text-base'
+                  } ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
+                    {item.title}
+                  </h3>
+                  {item.description && (
+                    <p className={`leading-tight mt-0.5 truncate ${
+                      isTight ? 'text-[10px]' : 'text-xs'
+                    } ${isDark ? 'text-white/50' : 'text-elastic-ink/60'}`}>
+                      {item.description}
+                    </p>
+                  )}
+                </div>
               </div>
+
+              {/* Duration */}
+              {item.duration && (
+                <div className={`flex-shrink-0 font-medium ${isTight ? 'text-[10px]' : 'text-xs'} ${
+                  isDark ? 'text-white/40' : 'text-elastic-blue/40'
+                }`}>
+                  {item.duration}
+                </div>
+              )}
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </div>
   )

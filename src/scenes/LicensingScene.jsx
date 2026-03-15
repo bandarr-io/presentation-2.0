@@ -255,7 +255,7 @@ function LicensingScene() {
             {/* Footnote */}
             <div className={`p-3 rounded-xl text-xs ${isDark ? 'bg-white/[0.02] text-white/40' : 'bg-elastic-dev-blue/5 text-elastic-dev-blue/50'}`}>
               <p>Full feature comparison at</p>
-              <p className="text-elastic-blue font-medium">elastic.co/subscriptions</p>
+              <p className={`font-medium ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}>elastic.co/subscriptions</p>
             </div>
           </div>
 
