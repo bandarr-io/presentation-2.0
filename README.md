@@ -1,223 +1,202 @@
-# Elastic Search AI Platform - Interactive Presentation
+# Elastic Presentation
 
-An interactive web presentation showcasing the Elastic Search AI Platform, built with React, Tailwind CSS, and Framer Motion. Features Elastic brand-aligned styling with dark/light themes.
+A React-based interactive presentation tool for Elastic field teams. Walk prospects through Elastic's platform, capabilities, and value with a polished, customizable presentation — all running locally in the browser.
 
-## Features
+---
 
-- **17+ Interactive Scenes** - Comprehensive, animated storytelling experience
-- **Scene Settings Panel** - Customize which scenes to include, reorder via drag-and-drop, and set time allocations
-- **Team Editor** - Add, edit, and manage team members directly in the browser with photo upload support
-- **Keyboard Navigation** - Use arrow keys, space, or number keys to navigate
-- **Smooth Transitions** - Spring-based page transitions with Framer Motion
-- **Dark/Light Theme** - Toggle between visual modes (button in bottom-left corner)
-- **Elastic Brand Styling** - Colors, typography, and design aligned with Elastic brand guidelines
-- **Persistent Settings** - Scene and team configuration saved to localStorage
+## Table of Contents
 
-## Quick Start
+- [Getting Started](#getting-started)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Scenes](#scenes)
+- [Customization](#customization)
+  - [Scene Settings](#scene-settings)
+  - [Team Settings](#team-settings)
+  - [Per-Scene Content](#per-scene-content)
+- [Navigation](#navigation)
+- [Theming](#theming)
+- [Persistence](#persistence)
+
+---
+
+## Getting Started
 
 ```bash
 # Install dependencies
 npm install
 
-# Start development server
+# Start the development server
 npm run dev
 
 # Build for production
 npm run build
-```
 
-## Navigation
-
-| Input | Action |
-|-------|--------|
-| `→` / `Space` / `Enter` | Next scene |
-| `←` / `Backspace` | Previous scene |
-| `1-9`, `0` | Jump to scene 1-10 |
-| `Escape` | Exit input fields |
-| Nav Menu | Click scene names in top bar |
-| Chevron Buttons | Click arrows on sides |
-
-> **Note**: Number keys are disabled when typing in input fields.
-
-## Settings Panel
-
-Click the **gear icon** (⚙️) in the bottom-right corner to access settings with two tabs:
-
-### Scenes Tab
-- **Toggle Scenes**: Show/hide scenes from presentation
-- **Reorder**: Drag scenes to change order
-- **Set Duration**: Click time badge to edit
-- **Total Time**: Shows presentation length
-- **Reset**: Return to defaults
-
-### Team Tab
-- **Edit Members**: Click a member card to expand and edit details
-- **Upload Photos**: Click "Upload" to add a photo from your device
-- **Add/Remove**: Add new members or delete existing ones
-- **Export/Import**: Download team config as JSON or import from file
-- **Reset**: Restore from default `team.json` file
-
-## Team Configuration
-
-Team data is stored in the browser's **localStorage** and persists across sessions.
-
-### Storage Behavior
-
-| Scenario | Behavior |
-|----------|----------|
-| Same browser | ✅ Changes persist |
-| Different browser | ❌ Each browser has its own data |
-| Incognito mode | ❌ Data cleared when window closes |
-| Different device | ❌ No sync between devices |
-
-### Photo Options
-
-1. **Upload** - Click "Upload" button, select image (auto-resized to 200px, compressed)
-2. **URL** - Paste a path like `/photos/name.jpg` or external URL
-3. **Initials** - If no photo, displays colored initials as fallback
-
-### Default Configuration
-
-Place a `team.json` file in `public/config/` to set defaults:
-
-```json
-{
-  "title": "Meet Your Elastic Team",
-  "subtitle": "Before we dive in—here's who you'll be working with today",
-  "members": [
-    {
-      "id": "unique-id",
-      "name": "Full Name",
-      "role": "Job Title",
-      "email": "email@elastic.co",
-      "phone": "123.456.7890",
-      "color": "#0B64DD",
-      "initials": "FN",
-      "photo": "/photos/name.jpg"
-    }
-  ]
-}
-```
-
-This file loads as the default when no localStorage data exists.
-
-## Scenes
-
-| Scene | Description | Duration |
-|-------|-------------|----------|
-| Introduction | Hero scene with platform tagline | - |
-| Agenda | Overview of presentation topics | - |
-| Team Introductions | Contact cards for your Elastic team | 2 min |
-| About Elastic | Company overview and capabilities | 5 min |
-| Desired Outcomes | Business value and success metrics | 10 min |
-| Problem Patterns | Common challenges we solve | 10 min |
-| The Data Challenge | 175ZB data explosion visualization | 3 min |
-| Unified Strategy | Data flow and consolidation strategy | 5 min |
-| The Platform | Elastic platform pillars and solutions | 5 min |
-| Cross-Cluster Search | Distributed search at global scale | 3 min |
-| Data Mesh | Distributed data architecture | 5 min |
-| Elastic Common Schema | Schema-on-write advantages | 5 min |
-| Access Control | Live RBAC & ABAC security demo | 3 min |
-| ES\|QL | Piped query language demo | 3 min |
-| Data Tiering | ILM and searchable snapshots | 3 min |
-| Licensing | Simplified licensing model | 3 min |
-| Consolidation | Tool sprawl reduction | 3 min |
-| Services & Support | Zero-downtime migration demo | 5 min |
-| Next Steps | Action items and contact info | 2 min |
-
-## Deployment
-
-After building, the `dist` folder contains static files ready for deployment:
-
-```bash
-# Build the app
-npm run build
-
-# Preview locally (http://localhost:4173)
+# Preview the production build
 npm run preview
 ```
 
-**Deploy to any static hosting:**
-- **Netlify/Vercel**: Connect repo for automatic deployments
-- **GitHub Pages**: Copy `dist` contents to gh-pages branch
-- **AWS S3/CloudFront**: Upload `dist` to S3 bucket
-- **Any web server**: Serve `dist` folder as static files
+The app runs at `http://localhost:5173` by default and uses hash-based routing (`/#/scene-id`).
+
+---
 
 ## Tech Stack
 
-- [React 18](https://react.dev/) - UI framework
-- [Vite](https://vitejs.dev/) - Build tool
-- [Tailwind CSS](https://tailwindcss.com/) - Styling
-- [Framer Motion](https://www.framer.com/motion/) - Animations
-- [FontAwesome](https://fontawesome.com/) - Icons
+| Category | Technology |
+|---|---|
+| Framework | React 18 |
+| Build | Vite 5 |
+| Routing | react-router-dom 7 (HashRouter) |
+| Styling | Tailwind CSS 3 |
+| Animation | anime.js 4 |
+| Icons | Font Awesome (free-solid) |
+| Analytics | Vercel Analytics |
+| Fonts | Mier B (headlines), Inter (body), Space Mono (code) |
 
-## Customization
-
-### Colors & Typography
-Edit `tailwind.config.js` for Elastic brand colors:
-```js
-colors: {
-  elastic: {
-    blue: '#0B64DD',      // Primary blue
-    teal: '#48EFCF',      // Accent teal
-    pink: '#F04E98',      // Accent pink
-    'dev-blue': '#101C3F', // Dark background
-    // ... more colors
-  }
-}
-```
-
-### Theme Variables
-Edit `src/index.css` for CSS variables:
-```css
-:root {
-  --elastic-blue: #0B64DD;
-  --elastic-teal: #48EFCF;
-  /* ... */
-}
-```
-
-### Content
-- **Scenes**: Edit components in `src/scenes/`
-- **Scene Order**: Modify `scenes` array in `src/App.jsx`
-- **Team Defaults**: Edit `public/config/team.json`
+---
 
 ## Project Structure
 
 ```
-src/
-├── components/           # Reusable UI components
-│   ├── Navigation.jsx    # Top navigation bar
-│   ├── ProgressBar.jsx   # Progress indicator
-│   └── SceneSettings.jsx # Settings panel with scene & team editors
-├── context/              # React context providers
-│   ├── ThemeContext.jsx  # Dark/light theme state
-│   └── TeamContext.jsx   # Team configuration state
-├── hooks/                # Custom React hooks
-│   └── useThemeStyles.js # Theme-aware styling utilities
-├── scenes/               # Individual presentation scenes
-│   ├── HeroScene.jsx
-│   ├── TeamScene.jsx
-│   ├── AccessControlSceneDev.jsx
-│   └── ...
-├── App.jsx               # Main app with scene configuration
-└── index.css             # Global styles & CSS variables
-
-public/
-├── config/
-│   └── team.json         # Default team configuration
-├── photos/               # Team member photos
-└── *.svg, *.png          # Logo and brand assets
+presentation-2.0/
+├── public/                     # Static assets (fonts, logos, images)
+├── src/
+│   ├── main.jsx                # App entry — HashRouter setup
+│   ├── App.jsx                 # Scene registry, routing, global nav, inline scenes
+│   ├── index.css               # Tailwind base, fonts, custom keyframes
+│   ├── components/
+│   │   ├── SceneSettings.jsx   # Settings panel + useSceneConfiguration hook
+│   │   ├── Navigation.jsx      # Global prev/next nav buttons
+│   │   ├── ProgressBar.jsx     # Bottom progress indicator
+│   │   └── ErrorBoundary.jsx
+│   ├── context/
+│   │   ├── ThemeContext.jsx     # Dark/light mode
+│   │   └── TeamContext.jsx      # Team member data
+│   ├── scenes/                 # All active scene components
+│   │   └── _backup/            # Archived older versions
+│   ├── animations/             # Reusable animation utilities
+│   └── hooks/                  # Custom React hooks
+├── tailwind.config.js
+└── vite.config.js
 ```
-
-## localStorage Keys
-
-| Key | Purpose |
-|-----|---------|
-| `presentation-scene-config` | Scene visibility, order, and durations |
-| `presentation-team-config` | Team member data (including uploaded photos as base64) |
-| `theme` | Dark/light mode preference |
 
 ---
 
-Built with ❤️ for Elastic
+## Scenes
+
+The presentation is made up of **scenes** — individual full-screen slides. Scenes are registered in `App.jsx` and can be enabled, disabled, reordered, and customized via the Settings panel.
+
+### Available Scenes
+
+| Scene | ID | Description |
+|---|---|---|
+| **Hero** | `hero` | Opening screen with animated search bar and Elastic branding |
+| **Agenda** | `agenda` | Auto-generated agenda from enabled scenes, adaptive grid layout |
+| **Team** | `team` | Team introductions pulled from Team Settings |
+| **About Elastic** | `about` | Company stats and platform overview |
+| **Business Value** | `business-value` | Four core value pillars: Risk, Time, Resilience, Cost |
+| **Problem Patterns** | `problem-patterns` | Filterable problem patterns across Observability, Security, and Search |
+| **Unified Strategy** | `unified-strategy` | Full platform diagram: data sources → capabilities → solutions |
+| **Data Explosion** | `data-explosion` | Animated chart showing structured vs. unstructured data growth |
+| **Data Mesh** | `data-mesh` | Multi-stage story: data silos → unified Elastic mesh |
+| **Cross-Cluster** | `cross-cluster` | Cross-cluster search and replication architecture |
+| **Security** | `security` | AI-driven security: attack discovery, threat hunting, automation |
+| **Schema** | `schema` | Schema on Read vs. Schema on Write comparison with ECS |
+| **Access Control** | `access-control` | RBAC/ABAC, field-level security, PII masking |
+| **Data Tiering** | `data-tiering` | Hot, warm, cold, and frozen tier lifecycle |
+| **Licensing** | `licensing` | Free vs. Enterprise feature comparison |
+| **Consolidation** | `consolidation` | Before/after: tool sprawl → Elastic consolidation |
+| **ES\|QL** | `esql` | ES\|QL pipeline stages with live query examples |
+| **Services** | `services` | Professional services journey with Zero Downtime Migration demo |
+| **Next Steps** | `next-steps` | Call to action, de-risking options, and team contact panel |
+| **Panel** | `panel` | Featured panel discussion layout with speaker cards |
+
+### Scene Groups
+
+Scenes can be grouped under a shared agenda entry using the `group` metadata field in Scene Settings. All scenes sharing the same group name will appear as a single item on the Agenda slide.
+
+---
+
+## Customization
+
+All customization is done through the **Settings panel**, accessible via the gear icon in the top navigation bar. Settings are automatically saved to `localStorage` and persist across sessions.
+
+### Scene Settings
+
+The **Scenes** tab lets you:
+
+- **Enable / disable** individual scenes — disabled scenes are hidden from the presentation and the agenda
+- **Reorder** scenes by dragging them up and down the list
+- **Set custom durations** shown on the Agenda slide
+- **Assign a group** to cluster scenes under a single agenda entry
+
+### Team Settings
+
+The **Team** tab lets you configure the people presenting. Each team member has:
+
+| Field | Description |
+|---|---|
+| Name | Full name |
+| Role | Job title (e.g. Account Executive, Solutions Architect) |
+| Email | Contact email |
+| Phone | Contact phone or scheduling link |
+| Photo | Avatar image URL |
+| Color | Accent color for their card |
+
+Team members with the role **Account Executive**, **Solutions Architect**, or **Customer Architect** are automatically surfaced in the **Next Steps** scene contact panel.
+
+### Per-Scene Content
+
+The **Customizations** tab exposes content fields for each scene. Select a scene from the dropdown to edit its fields. Here's what each scene supports:
+
+| Scene | Customizable Content |
+|---|---|
+| **Hero** | Typing animation text, banner title, accent word, subtitle |
+| **About Elastic** | Subtitle, stats (value, label, description), features |
+| **Problem Patterns** | Problem items per category (Observability, Security, Search) |
+| **Data Explosion** | Eyebrow, headline, animated stat counters with labels and sources |
+| **Cross-Cluster** | Eyebrow, title, benefits list, hub/site names, cluster config |
+| **Unified Strategy** | Eyebrow, title parts, subtitle |
+| **Consolidation** | Full before/after content: pain points, stats, tools, labels |
+| **Schema** | Eyebrow, title, subtitles, data source names |
+| **Access Control** | Domain, department names, role labels, actions, sensitive field values |
+| **Services** | Header eyebrow/title/subtitle, hidden costs, data source names |
+| **Next Steps** | Header, CTA name/email/phone/scheduling link |
+| **Panel** | Eyebrow, title, accent phrase, date, time; per-speaker: name, role, org, note, avatar, Moderator/Elastic tags |
+
+---
+
+## Navigation
+
+- **Previous / Next** buttons move between scenes globally
+- **Dot indicators** along the bottom show your position; hover for scene names
+- **Progress bar** at the very bottom fills as you advance through the deck
+- Some scenes have **internal stages** advanced with their own controls (e.g. Data Mesh, Security, Services Zero Downtime Demo)
+- The **Services** scene includes a **Reset** button in the nav bar when the Zero Downtime Demo is active
+
+URL routing uses the hash: `/#/<scene-id>` — you can deep-link directly to any scene.
+
+---
+
+## Theming
+
+The app supports **dark mode** (default) and **light mode**, toggled via the moon/sun icon in the nav bar.
+
+- Dark mode uses the full Elastic dark palette — deep blue backgrounds, teal and white accents
+- Light mode uses white surfaces with Elastic blue and ink tones
+- All scenes and components respond to the active theme
+- The selected theme is persisted to `localStorage` under the key `presentation-theme`
+
+---
+
+## Persistence
+
+All user configuration is saved automatically to `localStorage`:
+
+| Key | What it stores |
+|---|---|
+| `presentation-scene-config` | Enabled scenes, order, custom durations, per-scene metadata |
+| `presentation-team-config` | Team title, subtitle, and all member records |
+| `presentation-theme` | `'dark'` or `'light'` |
+
+To reset everything to defaults, use the **Reset** option available in the Settings panel, or clear `localStorage` in your browser's developer tools.
