@@ -94,7 +94,7 @@ const valueProps = [
   {
     icon: faGaugeHigh,
     title: 'Faster queries, at scale.',
-    description: 'Multi-stage concurrent execution delivers greater speed and efficiency across billions of events. No pre-aggregation required.',
+    description: 'Multi-stage concurrent execution delivers greater speed and efficiency across your event data.',
     color: '#48EFCF',
   },
   {
@@ -106,7 +106,7 @@ const valueProps = [
   {
     icon: faCodeBranch,
     title: 'Lookup, join, and transform.',
-    description: 'Perform data transformations in one query with lookup and joins. No convoluted scripts. No redundant requests.',
+    description: 'Perform data transformations in one query with lookups and joins.',
     color: '#FEC514',
   },
   {
@@ -282,24 +282,27 @@ function ESQLScene({ metadata = {}, externalStage = 0, onStageChange }) {
 
         {/* Header */}
         <div className="text-center flex-shrink-0">
-          <p className={`text-sm font-semibold uppercase tracking-eyebrow pt-4 mb-3 ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}>
+          <p className={`text-sm font-semibold uppercase tracking-eyebrow pt-8 mb-4 ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}>
             {eyebrow}
           </p>
-          <h2 className="font-headline text-4xl md:text-5xl font-extrabold mb-3">
+          <h2 className="font-headline text-4xl md:text-5xl font-extrabold mb-4">
             <span className={isDark ? 'text-white' : 'text-elastic-dark-ink'}>{headingPlain}</span>
             <span className={isDark ? 'text-elastic-teal' : 'text-elastic-blue'}>{headingAccent}</span>
           </h2>
-          <p className={`text-paragraph text-lg md:text-xl mx-auto pt-1 pb-4 ${isDark ? 'text-elastic-light-grey' : 'text-elastic-ink'}`}>
+          <p className={`text-paragraph text-lg md:text-xl mx-auto pt-1 pb-8 ${isDark ? 'text-elastic-light-grey' : 'text-elastic-ink'}`}>
             {subtitle}
           </p>
         </div>
 
         {/* Main content */}
-        <div className="flex-1 flex gap-4 min-h-0 justify-center">
+        <div className="flex-1 flex flex-col gap-3 min-h-0">
+
+          {/* ── Top row: Terminal + Funnel ──────────────────────────── */}
+          <div className="flex gap-4 min-h-0" style={{ flex: '1 1 0' }}>
 
           {/* ── Left: Terminal query panel ───────────────────────────── */}
           <div
-            className="w-[420px] flex-shrink-0 flex flex-col rounded-2xl border overflow-hidden"
+            className="w-[520px] flex-shrink-0 flex flex-col rounded-2xl border overflow-hidden"
             style={{ background: '#0A0F1E', borderColor: 'rgba(255,255,255,0.08)' }}
           >
 
@@ -360,119 +363,117 @@ function ESQLScene({ metadata = {}, externalStage = 0, onStageChange }) {
 
           </div>
 
-          {/* ── Center: Funnel + Results ──────────────────────────────── */}
-          <div className="w-[500px] flex-shrink-0 flex flex-col gap-3 min-h-0">
+          {/* ── Center: Data reduction funnel ────────────────────────── */}
+          <div className={`flex-1 min-w-0 rounded-2xl border p-3 flex flex-col ${isDark ? 'bg-white/[0.02] border-white/10' : 'bg-white/60 border-elastic-dev-blue/10'}`}>
+            <p className={`text-sm font-semibold uppercase tracking-wider mb-2 flex-shrink-0 ${isDark ? 'text-white/35' : 'text-elastic-dev-blue/40'}`}>
+              Data Reduction
+            </p>
+            <div className="flex flex-col flex-1 gap-2">
+              {pipelineStages.map((stage, i) => {
+                const isRevealed = i <= activeStage
+                const isActive   = i === activeStage
 
-            {/* Data reduction funnel */}
-            <div className={`flex-1 min-h-0 rounded-2xl border p-3 overflow-auto ${isDark ? 'bg-white/[0.02] border-white/10' : 'bg-white/60 border-elastic-dev-blue/10'}`}>
-              <p className={`text-sm font-semibold uppercase tracking-wider mb-1.5 ${isDark ? 'text-white/35' : 'text-elastic-dev-blue/40'}`}>
-                Data Reduction
-              </p>
-              <div className="space-y-2">
-                {pipelineStages.map((stage, i) => {
-                  const isRevealed = i <= activeStage
-                  const isActive   = i === activeStage
+                return (
+                  <div
+                    key={stage.id}
+                    className={`flex-1 flex items-center transition-opacity duration-300 ${isRevealed ? 'opacity-100' : 'opacity-20'}`}
+                  >
+                    <div className="flex items-center gap-2 w-full">
 
-                  return (
-                    <div
-                      key={stage.id}
-                      className={`transition-opacity duration-300 ${isRevealed ? 'opacity-100' : 'opacity-20'}`}
-                    >
-                      <div className="flex items-center gap-2">
-
-                        {/* Stage icon */}
-                        <div
-                          className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0 transition-colors duration-300"
-                          style={{ backgroundColor: isRevealed
-                            ? isDark ? `${stage.color}25` : 'rgba(11,100,221,0.12)'
-                            : 'rgba(255,255,255,0.04)'
-                          }}
-                        >
-                          <FontAwesomeIcon
-                            icon={stage.icon}
-                            className="text-xs"
-                            style={{ color: isRevealed ? (isDark ? stage.color : '#0B64DD') : '#666' }}
-                          />
-                        </div>
-
-                        {/* Bar track */}
-                        <div className={`flex-1 h-5 rounded overflow-hidden relative ${isDark ? 'bg-white/5' : 'bg-elastic-dev-blue/5'}`}>
-                          <div
-                            ref={el => { barRefs.current[i] = el }}
-                            className="h-full rounded"
-                            style={{
-                              width: isRevealed ? `${stage.barWidth}%` : '0%',
-                              backgroundColor: isDark ? stage.color : '#0B64DD',
-                              opacity: isActive ? 1 : isRevealed ? 0.55 : 0,
-                            }}
-                          />
-                        </div>
-
-                        {/* Label always outside, to the right */}
-                        {isRevealed && (
-                          <span className={`text-xs font-semibold whitespace-nowrap tabular-nums w-28 ${isDark ? 'text-white/60' : 'text-elastic-dev-blue/60'}`}>
-                            {stage.eventLabel}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-
-            {/* Results table — revealed at final stage */}
-            <div
-              className={`rounded-2xl border transition-opacity duration-500 flex-shrink-0 ${
-                isComplete ? 'opacity-100' : 'opacity-25'
-              } ${isDark ? 'bg-white/[0.02] border-white/10' : 'bg-white/60 border-elastic-dev-blue/10'}`}
-            >
-              <div className="p-3">
-                <p className={`text-sm font-semibold uppercase tracking-wider mb-3 ${isDark ? 'text-white/35' : 'text-elastic-dev-blue/40'}`}>
-                  Query Results · Top 5 Suspicious Accounts
-                </p>
-                <table className="w-full text-sm font-mono">
-                  <thead>
-                    <tr className={isDark ? 'text-white/30' : 'text-elastic-dev-blue/40'}>
-                      <th className="text-left pb-2 font-medium">user.name</th>
-                      <th className="text-right pb-2 font-medium">attempts</th>
-                      <th className="text-right pb-2 font-medium">hosts</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {mockResults.map((row) => (
-                      <tr
-                        key={row.user}
-                        className={`border-t ${isDark ? 'border-white/5' : 'border-elastic-dev-blue/5'}`}
+                      {/* Stage icon */}
+                      <div
+                        className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0 transition-colors duration-300"
+                        style={{ backgroundColor: isRevealed
+                          ? isDark ? `${stage.color}25` : 'rgba(11,100,221,0.12)'
+                          : 'rgba(255,255,255,0.04)'
+                        }}
                       >
-                        <td className={`py-1.5 ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}>
-                          {row.user}
-                        </td>
-                        <td className={`text-right py-1.5 ${isDark ? 'text-white/70' : 'text-elastic-dev-blue/70'}`}>
-                          {row.attempts.toLocaleString()}
-                        </td>
-                        <td className={`text-right py-1.5 ${isDark ? 'text-white/70' : 'text-elastic-dev-blue/70'}`}>
-                          {row.hosts}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                <p className={`text-sm mt-3 pt-3 border-t transition-opacity duration-500 ${
-                  isComplete ? 'opacity-100' : 'opacity-0'
-                } ${isDark ? 'border-white/10 text-white/40' : 'border-elastic-dev-blue/10 text-elastic-dev-blue/50'}`}>
-                  From{' '}
-                  <span className={`font-semibold ${isDark ? 'text-white' : 'text-elastic-blue'}`}>1,000,000 events</span>
-                  {' '}→{' '}
-                  <span className={`font-semibold ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}>5 actionable results</span>
-                  {' '}in a single query.
-                </p>
-              </div>
+                        <FontAwesomeIcon
+                          icon={stage.icon}
+                          className="text-xs"
+                          style={{ color: isRevealed ? (isDark ? stage.color : '#0B64DD') : '#666' }}
+                        />
+                      </div>
+
+                      {/* Bar track */}
+                      <div className={`flex-1 h-6 rounded overflow-hidden relative ${isDark ? 'bg-white/5' : 'bg-elastic-dev-blue/5'}`}>
+                        <div
+                          ref={el => { barRefs.current[i] = el }}
+                          className="h-full rounded"
+                          style={{
+                            width: isRevealed ? `${stage.barWidth}%` : '0%',
+                            backgroundColor: isDark ? stage.color : '#0B64DD',
+                            opacity: isActive ? 1 : isRevealed ? 0.55 : 0,
+                          }}
+                        />
+                      </div>
+
+                      {/* Label to the right of bar */}
+                      {isRevealed && (
+                        <span className={`text-xs font-semibold whitespace-nowrap tabular-nums w-28 ${isDark ? 'text-white/60' : 'text-elastic-dev-blue/60'}`}>
+                          {stage.eventLabel}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           </div>
 
-          {/* ── Right: Value props ────────────────────────────────────── */}
-          <div className="w-[440px] flex-shrink-0 flex flex-col gap-3">
+          {/* ── Right: Results table ──────────────────────────────────── */}
+          <div
+            className={`flex-1 min-w-0 rounded-2xl border transition-opacity duration-500 ${
+              isComplete ? 'opacity-100' : 'opacity-25'
+            } ${isDark ? 'bg-white/[0.02] border-white/10' : 'bg-white/60 border-elastic-dev-blue/10'}`}
+          >
+            <div className="p-3">
+              <p className={`text-sm font-semibold uppercase tracking-wider mb-3 ${isDark ? 'text-white/35' : 'text-elastic-dev-blue/40'}`}>
+                Query Results · Top 5 Suspicious Accounts
+              </p>
+              <table className="w-full text-sm font-mono">
+                <thead>
+                  <tr className={isDark ? 'text-white/30' : 'text-elastic-dev-blue/40'}>
+                    <th className="text-left pb-2 font-medium">user.name</th>
+                    <th className="text-right pb-2 font-medium">attempts</th>
+                    <th className="text-right pb-2 font-medium">hosts</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {mockResults.map((row) => (
+                    <tr
+                      key={row.user}
+                      className={`border-t ${isDark ? 'border-white/5' : 'border-elastic-dev-blue/5'}`}
+                    >
+                      <td className={`py-1.5 ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}>
+                        {row.user}
+                      </td>
+                      <td className={`text-right py-1.5 ${isDark ? 'text-white/70' : 'text-elastic-dev-blue/70'}`}>
+                        {row.attempts.toLocaleString()}
+                      </td>
+                      <td className={`text-right py-1.5 ${isDark ? 'text-white/70' : 'text-elastic-dev-blue/70'}`}>
+                        {row.hosts}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <p className={`text-sm mt-3 pt-3 border-t transition-opacity duration-500 ${
+                isComplete ? 'opacity-100' : 'opacity-0'
+              } ${isDark ? 'border-white/10 text-white/40' : 'border-elastic-dev-blue/10 text-elastic-dev-blue/50'}`}>
+                From{' '}
+                <span className={`font-semibold ${isDark ? 'text-white' : 'text-elastic-blue'}`}>1,000,000 events</span>
+                {' '}→{' '}
+                <span className={`font-semibold ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}>5 actionable results</span>
+                {' '}in a single query.
+              </p>
+            </div>
+          </div>
+
+          </div>
+
+          {/* ── Bottom row: Value props ──────────────────────────────── */}
+          <div className="flex gap-3 flex-shrink-0">
             {resolvedValueProps.map((prop) => (
               <div
                 key={prop.title}
@@ -480,16 +481,16 @@ function ESQLScene({ metadata = {}, externalStage = 0, onStageChange }) {
               >
                 <div className="flex items-start gap-3">
                   <div
-                    className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                    className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
                     style={{ backgroundColor: isDark ? `${prop.color}20` : 'rgba(11,100,221,0.1)' }}
                   >
-                    <FontAwesomeIcon icon={prop.icon} className="text-sm" style={{ color: isDark ? prop.color : '#0B64DD' }} />
+                    <FontAwesomeIcon icon={prop.icon} className="text-xs" style={{ color: isDark ? prop.color : '#0B64DD' }} />
                   </div>
                   <div>
-                    <p className={`font-bold text-base mb-1.5 leading-snug ${isDark ? 'text-white' : 'text-elastic-dev-blue'}`}>
+                    <p className={`font-bold text-sm mb-1 leading-snug ${isDark ? 'text-white' : 'text-elastic-dev-blue'}`}>
                       {prop.title}
                     </p>
-                    <p className={`text-sm leading-relaxed ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/60'}`}>
+                    <p className={`text-xs leading-relaxed ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/60'}`}>
                       {prop.description}
                     </p>
                   </div>
