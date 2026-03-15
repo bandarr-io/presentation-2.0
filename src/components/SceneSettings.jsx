@@ -1246,6 +1246,7 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
           <option value="esql">ES|QL</option>
           <option value="services">Services</option>
           <option value="next-steps">Next Steps</option>
+          <option value="panel">Panel</option>
         </select>
       </div>
 
@@ -2807,6 +2808,165 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
             />
           </div>
 
+        </div>
+      )}
+
+      {selectedScene === 'panel' && (
+        <div className="space-y-4">
+          <p className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}>Header</p>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Eyebrow</label>
+            <input
+              type="text"
+              value={sceneMetadata?.panel?.eyebrow || ''}
+              onChange={(e) => onUpdateSceneMetadata('panel', { ...sceneMetadata?.panel, eyebrow: e.target.value })}
+              className={inputClass}
+              placeholder="Featured Panel"
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Title</label>
+            <input
+              type="text"
+              value={sceneMetadata?.panel?.title || ''}
+              onChange={(e) => onUpdateSceneMetadata('panel', { ...sceneMetadata?.panel, title: e.target.value })}
+              className={inputClass}
+              placeholder="Understanding Security in Linking Infrastructure to Governing"
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Title Accent (highlighted portion)</label>
+            <input
+              type="text"
+              value={sceneMetadata?.panel?.titleAccent || ''}
+              onChange={(e) => onUpdateSceneMetadata('panel', { ...sceneMetadata?.panel, titleAccent: e.target.value })}
+              className={inputClass}
+              placeholder="Infrastructure to Governing"
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Date</label>
+            <input
+              type="text"
+              value={sceneMetadata?.panel?.date || ''}
+              onChange={(e) => onUpdateSceneMetadata('panel', { ...sceneMetadata?.panel, date: e.target.value })}
+              className={inputClass}
+              placeholder="March 11, 2025"
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Time</label>
+            <input
+              type="text"
+              value={sceneMetadata?.panel?.time || ''}
+              onChange={(e) => onUpdateSceneMetadata('panel', { ...sceneMetadata?.panel, time: e.target.value })}
+              className={inputClass}
+              placeholder="10:45 AM – 11:30 AM"
+            />
+          </div>
+
+          <p className={`text-xs font-bold uppercase tracking-wider pt-2 ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}>Speakers</p>
+
+          {(() => {
+            const panelDefaultSpeakers = [
+              { name: 'Dr. Erica Reuter',  role: 'RVP, Solution Engineering, US Public Sector', org: 'Snowflake',                                  moderator: true  },
+              { name: 'Andrew Alipanah',   role: 'CISO',                                         org: 'Orange County, California',                  note: 'Invited Pending Approval' },
+              { name: 'Merlin Namuth',     role: 'CISO',                                         org: 'City and County of Denver, Colorado'                          },
+              { name: 'Collin Hill',       role: 'CIO',                                          org: 'City of Indianapolis & Marion County, Indiana'               },
+              { name: 'Jared Pane',        role: 'Senior Director Solutions Architecture',       org: 'Elastic',                                    highlight: true  },
+            ]
+            const speakers = sceneMetadata?.panel?.speakers?.length
+              ? sceneMetadata.panel.speakers
+              : panelDefaultSpeakers
+
+            const saveSpeakers = (updated) =>
+              onUpdateSceneMetadata('panel', { ...sceneMetadata?.panel, speakers: updated })
+
+            const updateSpeaker = (i, field, value) => {
+              const updated = speakers.map((s, idx) =>
+                idx === i ? { ...s, [field]: value } : s
+              )
+              saveSpeakers(updated)
+            }
+
+            const deleteSpeaker = (i) =>
+              saveSpeakers(speakers.filter((_, idx) => idx !== i))
+
+            const addSpeaker = () =>
+              saveSpeakers([...speakers, { name: '', role: '', org: '' }])
+
+            const toggleClass = (active) =>
+              `text-[11px] font-bold uppercase px-2 py-1 rounded cursor-pointer border transition-colors ${
+                active
+                  ? isDark ? 'bg-elastic-teal/20 border-elastic-teal/40 text-elastic-teal' : 'bg-elastic-blue/10 border-elastic-blue/30 text-elastic-blue'
+                  : isDark ? 'bg-white/5 border-white/10 text-white/40'                    : 'bg-white border-elastic-dev-blue/15 text-elastic-dev-blue/40'
+              }`
+
+            return (
+              <>
+                {speakers.map((speaker, i) => (
+                  <div key={i} className={`p-3 rounded-lg border space-y-2 ${isDark ? 'bg-white/[0.02] border-white/10' : 'bg-white/60 border-elastic-dev-blue/10'}`}>
+                    <div className="flex items-center justify-between">
+                      <p className={`text-xs font-semibold ${isDark ? 'text-white/70' : 'text-elastic-dark-ink'}`}>Speaker {i + 1}</p>
+                      <button
+                        onClick={() => deleteSpeaker(i)}
+                        className={`text-[11px] px-2 py-0.5 rounded border transition-colors ${isDark ? 'border-red-500/30 text-red-400/70 hover:bg-red-500/10' : 'border-red-400/30 text-red-400 hover:bg-red-50'}`}
+                      >
+                        Remove
+                      </button>
+                    </div>
+
+                    <div>
+                      <label className={`text-[11px] mb-0.5 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Name</label>
+                      <input type="text" value={speaker.name || ''} onChange={(e) => updateSpeaker(i, 'name', e.target.value)} className={inputClass} placeholder="Full name" />
+                    </div>
+
+                    <div className="flex gap-2">
+                      <div className="flex-1">
+                        <label className={`text-[11px] mb-0.5 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Role</label>
+                        <input type="text" value={speaker.role || ''} onChange={(e) => updateSpeaker(i, 'role', e.target.value)} className={inputClass} placeholder="Title" />
+                      </div>
+                      <div className="flex-1">
+                        <label className={`text-[11px] mb-0.5 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Organization</label>
+                        <input type="text" value={speaker.org || ''} onChange={(e) => updateSpeaker(i, 'org', e.target.value)} className={inputClass} placeholder="Company" />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className={`text-[11px] mb-0.5 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Note (optional)</label>
+                      <input type="text" value={speaker.note || ''} onChange={(e) => updateSpeaker(i, 'note', e.target.value)} className={inputClass} placeholder="e.g. Invited Pending Approval" />
+                    </div>
+
+                    <div>
+                      <label className={`text-[11px] mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Avatar URL (leave blank for initials)</label>
+                      <input type="text" value={speaker.avatar || ''} onChange={(e) => updateSpeaker(i, 'avatar', e.target.value)} className={inputClass} placeholder="https://..." />
+                    </div>
+
+                    <div className="flex gap-2 pt-0.5">
+                      <button onClick={() => updateSpeaker(i, 'moderator', !speaker.moderator)} className={toggleClass(!!speaker.moderator)}>Moderator</button>
+                      <button onClick={() => updateSpeaker(i, 'highlight', !speaker.highlight)} className={toggleClass(!!speaker.highlight)}>Elastic</button>
+                    </div>
+                  </div>
+                ))}
+
+                <button
+                  onClick={addSpeaker}
+                  className={`w-full py-2 rounded-lg border border-dashed text-xs font-semibold transition-colors ${
+                    isDark
+                      ? 'border-white/20 text-white/40 hover:border-elastic-teal/40 hover:text-elastic-teal/70'
+                      : 'border-elastic-dev-blue/20 text-elastic-dev-blue/40 hover:border-elastic-blue/40 hover:text-elastic-blue/70'
+                  }`}
+                >
+                  + Add Speaker
+                </button>
+              </>
+            )
+          })()}
         </div>
       )}
     </div>

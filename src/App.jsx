@@ -20,6 +20,7 @@ import ConsolidationScene from './scenes/ConsolidationScene'
 import ESQLScene from './scenes/ESQLScene'
 import ServicesScene from './scenes/ServicesScene'
 import NextStepsScene from './scenes/NextStepsScene'
+import PanelScene from './scenes/PanelScene'
 
 // Hero Scene with typing animation
 const HeroScene = ({ metadata = {} }) => {
@@ -930,6 +931,13 @@ function AppContent() {
       duration: '2 min',
       description: "Close the conversation and drive to action",
     },
+    {
+      id: 'panel',
+      component: PanelScene,
+      title: 'Panel',
+      duration: '2 min',
+      description: 'Featured panel discussion',
+    },
   ]
 
   const {
@@ -1095,6 +1103,10 @@ function AppContent() {
   } else if (currentSceneId === 'next-steps') {
     sceneProps = {
       metadata: sceneMetadata?.['next-steps'] || {},
+    }
+  } else if (currentSceneId === 'panel') {
+    sceneProps = {
+      metadata: sceneMetadata?.panel || {},
     }
   }
 

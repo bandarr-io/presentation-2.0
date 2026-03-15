@@ -140,7 +140,7 @@ function LicensingScene() {
             {/* Power Gauge */}
             <div className={`p-4 rounded-2xl border ${isDark ? 'bg-white/[0.03] border-white/10' : 'bg-white border-elastic-dev-blue/10'}`}>
               <div className="text-center mb-3">
-                <div className="text-4xl font-bold gradient-text tabular-nums">
+                <div className={`text-4xl font-bold tabular-nums ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}>
                   {displayPercentage}%
                 </div>
                 <div className={`text-xs mt-0.5 ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
