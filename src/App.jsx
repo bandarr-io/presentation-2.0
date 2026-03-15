@@ -19,6 +19,7 @@ import DataTieringScene from './scenes/DataTieringScene'
 import ConsolidationScene from './scenes/ConsolidationScene'
 import ESQLScene from './scenes/ESQLScene'
 import ServicesScene from './scenes/ServicesScene'
+import NextStepsScene from './scenes/NextStepsScene'
 
 // Hero Scene with typing animation
 const HeroScene = ({ metadata = {} }) => {
@@ -922,6 +923,13 @@ function AppContent() {
       duration: '4 min',
       description: 'Transform faster with Elastic Professional Services',
     },
+    {
+      id: 'next-steps',
+      component: NextStepsScene,
+      title: 'Next Steps',
+      duration: '2 min',
+      description: "Close the conversation and drive to action",
+    },
   ]
 
   const {
@@ -1084,32 +1092,24 @@ function AppContent() {
       demoPhase,
       metadata: sceneMetadata?.services || {},
     }
+  } else if (currentSceneId === 'next-steps') {
+    sceneProps = {
+      metadata: sceneMetadata?.['next-steps'] || {},
+    }
   }
 
   const handleNext = () => {
-    if (currentSceneId === 'security' && securityStage < SECURITY_STAGE_COUNT - 1) {
-      setSecurityStage(s => s + 1)
-    } else if (currentSceneId === 'schema' && schemaStage < SCHEMA_STAGE_COUNT - 1) {
-      setSchemaStage(s => s + 1)
-    } else {
-      setSecurityStage(0)
-      setSchemaStage(0)
-      setEsqlStage(0)
-      setServicesStage(0)
-      navigateToScene(currentScene + 1)
-    }
+    setSecurityStage(0)
+    setSchemaStage(0)
+    setEsqlStage(0)
+    setServicesStage(0)
+    navigateToScene(currentScene + 1)
   }
 
   const handlePrev = () => {
-    if (currentSceneId === 'security' && securityStage > 0) {
-      setSecurityStage(s => s - 1)
-    } else if (currentSceneId === 'schema' && schemaStage > 0) {
-      setSchemaStage(s => s - 1)
-    } else {
-      setSecurityStage(0)
-      setSchemaStage(0)
-      navigateToScene(currentScene - 1)
-    }
+    setSecurityStage(0)
+    setSchemaStage(0)
+    navigateToScene(currentScene - 1)
   }
 
   // Reset scene-specific state when navigating away
@@ -1151,7 +1151,7 @@ function AppContent() {
       />
 
       {/* Scene Container */}
-      <div className="h-[calc(100vh-120px)] flex items-center justify-center">
+      <div className="h-[calc(100vh-76px)] flex items-center justify-center">
         <Scene {...sceneProps} />
       </div>
       
@@ -1416,9 +1416,9 @@ function AppContent() {
           <div className="flex items-center gap-6">
             <button 
               onClick={handlePrev} 
-              disabled={currentScene === 0 && (currentSceneId !== 'security' || securityStage === 0) && (currentSceneId !== 'schema' || schemaStage === 0)}
+              disabled={currentScene === 0}
               className={`text-sm font-medium transition-all hover:scale-105 ${
-                (currentScene === 0 && (currentSceneId !== 'security' || securityStage === 0) && (currentSceneId !== 'schema' || schemaStage === 0))
+                currentScene === 0
                   ? 'opacity-30 cursor-not-allowed'
                   : theme === 'dark'
                     ? 'text-white/60 hover:text-white'
@@ -1450,9 +1450,9 @@ function AppContent() {
             
             <button 
               onClick={handleNext} 
-              disabled={currentScene === scenes.length - 1 && (currentSceneId !== 'security' || securityStage === SECURITY_STAGE_COUNT - 1) && (currentSceneId !== 'schema' || schemaStage === SCHEMA_STAGE_COUNT - 1)}
+              disabled={currentScene === scenes.length - 1}
               className={`text-sm font-medium transition-all hover:scale-105 ${
-                (currentScene === scenes.length - 1 && (currentSceneId !== 'security' || securityStage === SECURITY_STAGE_COUNT - 1) && (currentSceneId !== 'schema' || schemaStage === SCHEMA_STAGE_COUNT - 1))
+                currentScene === scenes.length - 1
                   ? 'opacity-30 cursor-not-allowed'
                   : theme === 'dark'
                     ? 'text-white/60 hover:text-white'

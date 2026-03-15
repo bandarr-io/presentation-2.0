@@ -905,7 +905,7 @@ function CrossClusterScene({ metadata = {} }) {
               {/* Hub card */}
               <div
                 ref={s1HubRef}
-                className={`absolute z-10 inline-flex items-center gap-3 px-5 py-3 rounded-2xl border-2 ${
+                className={`absolute z-10 inline-flex items-center gap-3 px-6 py-3 rounded-2xl border-2 min-w-[320px] ${
                   isDark ? 'bg-elastic-dev-blue border-elastic-teal/40' : 'bg-white border-elastic-blue/30 shadow-lg'
                 }`}
                 style={{ left: `${HUB_X}%`, top: `${HUB_Y}%`, transform: 'translate(-50%, -50%)', opacity: 0 }}

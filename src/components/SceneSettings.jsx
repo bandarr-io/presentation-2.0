@@ -1245,6 +1245,7 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
           <option value="consolidation">Consolidation</option>
           <option value="esql">ES|QL</option>
           <option value="services">Services</option>
+          <option value="next-steps">Next Steps</option>
         </select>
       </div>
 
@@ -2699,6 +2700,112 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
               </div>
             )
           })}
+
+        </div>
+      )}
+
+      {/* ── Next Steps Scene ───────────────────────────────────────────── */}
+      {selectedScene === 'next-steps' && (
+        <div className="space-y-6 mt-6">
+
+          <h3 className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
+            Next Steps — Header
+          </h3>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Eyebrow Text</label>
+            <input
+              type="text"
+              value={sceneMetadata?.['next-steps']?.eyebrow || ''}
+              onChange={(e) => onUpdateSceneMetadata('next-steps', { ...sceneMetadata?.['next-steps'], eyebrow: e.target.value })}
+              className={inputClass}
+              placeholder="What Comes Next"
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Heading — Plain</label>
+            <input
+              type="text"
+              value={sceneMetadata?.['next-steps']?.headingPlain || ''}
+              onChange={(e) => onUpdateSceneMetadata('next-steps', { ...sceneMetadata?.['next-steps'], headingPlain: e.target.value })}
+              className={inputClass}
+              placeholder="Ready to "
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Heading — Accent</label>
+            <input
+              type="text"
+              value={sceneMetadata?.['next-steps']?.headingAccent || ''}
+              onChange={(e) => onUpdateSceneMetadata('next-steps', { ...sceneMetadata?.['next-steps'], headingAccent: e.target.value })}
+              className={inputClass}
+              placeholder="Get Started?"
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Subtitle</label>
+            <textarea
+              rows={2}
+              value={sceneMetadata?.['next-steps']?.subtitle || ''}
+              onChange={(e) => onUpdateSceneMetadata('next-steps', { ...sceneMetadata?.['next-steps'], subtitle: e.target.value })}
+              className={inputClass}
+              placeholder="Here's a clear path forward — we'll guide you every step of the way."
+            />
+          </div>
+
+          <h3 className={`text-sm font-semibold pt-2 ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
+            Next Steps — Your Contact Info
+          </h3>
+          <p className={`text-xs ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>
+            Shown in the contact panel at the bottom right of the scene.
+          </p>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Panel Heading</label>
+            <input
+              type="text"
+              value={sceneMetadata?.['next-steps']?.ctaHeading || ''}
+              onChange={(e) => onUpdateSceneMetadata('next-steps', { ...sceneMetadata?.['next-steps'], ctaHeading: e.target.value })}
+              className={inputClass}
+              placeholder="Let's keep the momentum going."
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Your Name / Role</label>
+            <input
+              type="text"
+              value={sceneMetadata?.['next-steps']?.ctaName || ''}
+              onChange={(e) => onUpdateSceneMetadata('next-steps', { ...sceneMetadata?.['next-steps'], ctaName: e.target.value })}
+              className={inputClass}
+              placeholder="Jane Smith · Solutions Architect"
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Email</label>
+            <input
+              type="text"
+              value={sceneMetadata?.['next-steps']?.ctaEmail || ''}
+              onChange={(e) => onUpdateSceneMetadata('next-steps', { ...sceneMetadata?.['next-steps'], ctaEmail: e.target.value })}
+              className={inputClass}
+              placeholder="jane.smith@elastic.co"
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Scheduling Link / Phone</label>
+            <input
+              type="text"
+              value={sceneMetadata?.['next-steps']?.ctaPhone || ''}
+              onChange={(e) => onUpdateSceneMetadata('next-steps', { ...sceneMetadata?.['next-steps'], ctaPhone: e.target.value })}
+              className={inputClass}
+              placeholder="calendly.com/jane-smith"
+            />
+          </div>
 
         </div>
       )}
