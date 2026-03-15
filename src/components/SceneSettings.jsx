@@ -1244,6 +1244,7 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
           <option value="access-control">Access Control</option>
           <option value="consolidation">Consolidation</option>
           <option value="esql">ES|QL</option>
+          <option value="services">Services</option>
         </select>
       </div>
 
@@ -2564,6 +2565,141 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
               </div>
             )
           })}
+        </div>
+      )}
+
+      {/* ── Services Scene ─────────────────────────────────────────────── */}
+      {selectedScene === 'services' && (
+        <div className="space-y-6 mt-6">
+
+          <h3 className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
+            Services Scene — Header
+          </h3>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Eyebrow Text</label>
+            <input
+              type="text"
+              value={sceneMetadata?.services?.eyebrow || ''}
+              onChange={(e) => onUpdateSceneMetadata('services', { ...sceneMetadata?.services, eyebrow: e.target.value })}
+              className={inputClass}
+              placeholder="Your Path to Success"
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Heading — Plain</label>
+            <input
+              type="text"
+              value={sceneMetadata?.services?.headingPlain || ''}
+              onChange={(e) => onUpdateSceneMetadata('services', { ...sceneMetadata?.services, headingPlain: e.target.value })}
+              className={inputClass}
+              placeholder="Transform Faster "
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Heading — Accent</label>
+            <input
+              type="text"
+              value={sceneMetadata?.services?.headingAccent || ''}
+              onChange={(e) => onUpdateSceneMetadata('services', { ...sceneMetadata?.services, headingAccent: e.target.value })}
+              className={inputClass}
+              placeholder="with Expert Guidance."
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Subtitle</label>
+            <textarea
+              rows={3}
+              value={sceneMetadata?.services?.subtitle || ''}
+              onChange={(e) => onUpdateSceneMetadata('services', { ...sceneMetadata?.services, subtitle: e.target.value })}
+              className={inputClass}
+              placeholder="Skip the guesswork. Elastic Professional Services accelerates your deployment, migration, and adoption — so your team focuses on outcomes, not overhead."
+            />
+          </div>
+
+          <h3 className={`text-sm font-semibold pt-2 ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
+            Services Scene — Hidden Costs
+          </h3>
+          <p className={`text-xs ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>
+            DIY Reality stage — cost items with severity (HIGH / MEDIUM / LOW).
+          </p>
+
+          {[
+            { placeholder: 'Opportunity cost of delayed insights',      sev: 'HIGH'   },
+            { placeholder: 'Engineer time diverted from impactful work', sev: 'HIGH'  },
+            { placeholder: 'Production incidents during migration',      sev: 'MEDIUM' },
+            { placeholder: 'Vendor support for edge cases',             sev: 'MEDIUM' },
+            { placeholder: 'Re-work from initial mistakes',             sev: 'HIGH'   },
+          ].map((item, i) => {
+            const costs = sceneMetadata?.services?.hiddenCosts || []
+            return (
+              <div key={i} className="space-y-2">
+                <p className={`text-xs font-semibold uppercase tracking-wider ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Cost {i + 1}</p>
+                <div>
+                  <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Label</label>
+                  <input
+                    type="text"
+                    value={costs[i]?.label || ''}
+                    onChange={(e) => {
+                      const next = [...costs]
+                      next[i] = { ...next[i], label: e.target.value }
+                      onUpdateSceneMetadata('services', { ...sceneMetadata?.services, hiddenCosts: next })
+                    }}
+                    className={inputClass}
+                    placeholder={item.placeholder}
+                  />
+                </div>
+                <div>
+                  <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Severity</label>
+                  <select
+                    value={costs[i]?.severity || ''}
+                    onChange={(e) => {
+                      const next = [...costs]
+                      next[i] = { ...next[i], severity: e.target.value }
+                      onUpdateSceneMetadata('services', { ...sceneMetadata?.services, hiddenCosts: next })
+                    }}
+                    className={inputClass}
+                  >
+                    <option value="">Default ({item.sev})</option>
+                    <option value="HIGH">HIGH</option>
+                    <option value="MEDIUM">MEDIUM</option>
+                    <option value="LOW">LOW</option>
+                  </select>
+                </div>
+              </div>
+            )
+          })}
+
+          <h3 className={`text-sm font-semibold pt-2 ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
+            Services Scene — Data Sources
+          </h3>
+          <p className={`text-xs ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>
+            Zero Downtime demo — data source names shown in the left panel.
+          </p>
+
+          {['AWS', 'Linux Systems', 'Windows Systems', 'Palo Alto', 'CrowdStrike'].map((def, i) => {
+            const sources = sceneMetadata?.services?.dataSources || []
+            return (
+              <div key={i}>
+                <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Source {i + 1}</label>
+                <input
+                  type="text"
+                  value={sources[i]?.name || ''}
+                  onChange={(e) => {
+                    const next = [...sources]
+                    next[i] = { ...next[i], name: e.target.value }
+                    onUpdateSceneMetadata('services', { ...sceneMetadata?.services, dataSources: next })
+                  }}
+                  className={inputClass}
+                  placeholder={def}
+                />
+              </div>
+            )
+          })}
+
         </div>
       )}
     </div>

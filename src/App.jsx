@@ -18,6 +18,7 @@ import LicensingScene from './scenes/LicensingScene'
 import DataTieringScene from './scenes/DataTieringScene'
 import ConsolidationScene from './scenes/ConsolidationScene'
 import ESQLScene from './scenes/ESQLScene'
+import ServicesScene from './scenes/ServicesScene'
 
 // Hero Scene with typing animation
 const HeroScene = ({ metadata = {} }) => {
@@ -914,6 +915,13 @@ function AppContent() {
       duration: '4 min',
       description: 'One pipeline from raw data to answers — ES|QL query language'
     },
+    {
+      id: 'services',
+      component: ServicesScene,
+      title: 'Services',
+      duration: '4 min',
+      description: 'Transform faster with Elastic Professional Services',
+    },
   ]
 
   const {
@@ -964,6 +972,18 @@ function AppContent() {
   const SCHEMA_STAGE_COUNT = 2
   const ESQL_STAGE_COUNT = 6
   const [esqlStage, setEsqlStage] = useState(0)
+  const [servicesStage, setServicesStage] = useState(0)
+  const [demoPhase, setDemoPhase] = useState('idle')
+
+  const demoPhaseSequence = ['idle', 'deployed', 'preparing', 'stopping', 'validating', 'complete']
+  const handleDemoAdvance = () => {
+    const next = { idle: 'deployed', deployed: 'preparing', preparing: 'stopping', stopping: 'validating', validating: 'usecases', usecases: 'complete' }
+    setDemoPhase(p => next[p] ?? p)
+  }
+  const handleDemoBack = () => {
+    const prev = { deployed: 'idle', preparing: 'deployed', stopping: 'preparing', validating: 'stopping', usecases: 'validating', complete: 'usecases' }
+    setDemoPhase(p => prev[p] ?? p)
+  }
   const [businessValueSelectedCard, setBusinessValueSelectedCard] = useState(null)
   const [businessValueShowUnified, setBusinessValueShowUnified] = useState(false)
   const [dataExplosionVerdictSignal, setDataExplosionVerdictSignal] = useState(0)
@@ -1057,6 +1077,13 @@ function AppContent() {
       externalStage: esqlStage,
       onStageChange: setEsqlStage,
     }
+  } else if (currentSceneId === 'services') {
+    sceneProps = {
+      externalStage: servicesStage,
+      onStageChange: (s) => { setServicesStage(s); if (s !== 2) setDemoPhase('idle') },
+      demoPhase,
+      metadata: sceneMetadata?.services || {},
+    }
   }
 
   const handleNext = () => {
@@ -1068,6 +1095,7 @@ function AppContent() {
       setSecurityStage(0)
       setSchemaStage(0)
       setEsqlStage(0)
+      setServicesStage(0)
       navigateToScene(currentScene + 1)
     }
   }
@@ -1341,6 +1369,47 @@ function AppContent() {
                 </button>
               </>
             )}
+          {/* Demo controls — Zero Downtime stage */}
+          {currentSceneId === 'services' && servicesStage === 2 && (
+            <>
+              <button
+                onClick={handleDemoBack}
+                disabled={demoPhase === 'idle'}
+                className={`w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed ${
+                  theme === 'dark'
+                    ? 'bg-elastic-teal/20 hover:bg-elastic-teal/30 text-elastic-teal'
+                    : 'bg-elastic-blue/10 hover:bg-elastic-blue/20 text-elastic-blue'
+                }`}
+                title="Previous step"
+              >
+                <FontAwesomeIcon icon={faChevronLeft} className="text-sm" />
+              </button>
+              <button
+                onClick={() => setDemoPhase('idle')}
+                disabled={demoPhase === 'idle'}
+                className={`w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed ${
+                  theme === 'dark'
+                    ? 'bg-white/10 hover:bg-white/20 text-white/60'
+                    : 'bg-elastic-dev-blue/10 hover:bg-elastic-dev-blue/20 text-elastic-dev-blue/60'
+                }`}
+                title="Reset demo"
+              >
+                <FontAwesomeIcon icon={faRotateRight} className="text-sm" />
+              </button>
+              <button
+                onClick={handleDemoAdvance}
+                disabled={demoPhase === 'complete'}
+                className={`w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed ${
+                  theme === 'dark'
+                    ? 'bg-elastic-teal/20 hover:bg-elastic-teal/30 text-elastic-teal'
+                    : 'bg-elastic-blue/10 hover:bg-elastic-blue/20 text-elastic-blue'
+                }`}
+                title="Next step"
+              >
+                <FontAwesomeIcon icon={faChevronRight} className="text-sm" />
+              </button>
+            </>
+          )}
           </div>
           
           {/* Right: Navigation Controls */}
