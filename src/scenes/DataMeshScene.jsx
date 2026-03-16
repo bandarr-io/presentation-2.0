@@ -30,23 +30,53 @@ const ARCH = {
 }
 
 const SILO_POSITIONS = [
-  { x: '8%',  y: '10%', label: 'US-East',  color: '#48EFCF' },
-  { x: '68%', y: '8%',  label: 'EU-West',  color: '#0B64DD' },
-  { x: '16%', y: '58%', label: 'APAC',     color: '#F04E98' },
-  { x: '52%', y: '63%', label: 'Archive',  color: '#FEC514' },
-  { x: '36%', y: '30%', label: '???',      color: '#FF957D' },
-  { x: '80%', y: '50%', label: 'Legacy',   color: '#9B59B6' },
-  { x: '2%',  y: '40%', label: 'On-Prem',  color: '#3498DB' },
-  { x: '58%', y: '22%', label: 'Cloud',    color: '#1ABC9C' },
-  { x: '26%', y: '4%',  label: 'Logs',     color: '#E74C3C' },
+  { x: '11%', y: '16%', label: 'US-East',  color: '#48EFCF' },
+  { x: '76%', y: '13%', label: 'EU-West',  color: '#0B64DD' },
+  { x: '20%', y: '72%', label: 'APAC',     color: '#F04E98' },
+  { x: '57%', y: '78%', label: 'Archive',  color: '#FEC514' },
+  { x: '40%', y: '42%', label: '???',      color: '#FF957D' },
+  { x: '87%', y: '60%', label: 'Legacy',   color: '#9B59B6' },
+  { x: '6%',  y: '50%', label: 'On-Prem',  color: '#3498DB' },
+  { x: '63%', y: '28%', label: 'Cloud',    color: '#1ABC9C' },
+  { x: '33%', y: '8%',  label: 'Logs',     color: '#E74C3C' },
 ]
 
 const QM_POSITIONS = [
-  { x: '23%', y: '22%', size: 'text-3xl' }, { x: '48%', y: '14%', size: 'text-2xl' },
-  { x: '11%', y: '37%', size: 'text-xl'  }, { x: '70%', y: '37%', size: 'text-2xl' },
-  { x: '43%', y: '50%', size: 'text-3xl' }, { x: '78%', y: '28%', size: 'text-xl'  },
-  { x: '33%', y: '72%', size: 'text-2xl' }, { x: '62%', y: '58%', size: 'text-xl'  },
+  { x: '34%', y: '38%', size: 'text-3xl' }, { x: '59%', y: '18%', size: 'text-2xl' },
+  { x: '22%', y: '62%', size: 'text-xl'  }, { x: '82%', y: '44%', size: 'text-2xl' },
+  { x: '56%', y: '60%', size: 'text-3xl' }, { x: '91%', y: '26%', size: 'text-xl'  },
+  { x: '43%', y: '86%', size: 'text-2xl' }, { x: '77%', y: '70%', size: 'text-xl'  },
 ]
+
+const DEFAULT_SEARCH_ITEMS = [
+  { text: 'Query instantly', good: true  },
+  { text: 'Pivot & explore', good: true  },
+  { text: 'Milliseconds',    good: true  },
+  { text: '$4+ per GB',      good: false },
+]
+
+const DEFAULT_STORAGE_ITEMS = [
+  { text: 'Batch scan only',  good: false },
+  { text: 'Rehydrate first',  good: false },
+  { text: 'Minutes to hours', good: false },
+  { text: '$0.02 per GB',     good: true  },
+]
+
+const DEFAULT_PROBLEMS_CARDS = [
+  { icon: faDatabase, title: 'Data Silos',    desc: "Isolated pools that can't talk to each other",  darkColor: '#FF957D', lightColor: '#0B64DD' },
+  { icon: faClock,    title: 'Slow Insights', desc: 'Minutes to hours before you can query',         darkColor: '#F04E98', lightColor: '#153385' },
+  { icon: faGlobe,    title: 'No Visibility', desc: "Can't see across the enterprise",               darkColor: '#FEC514', lightColor: '#0B64DD' },
+  { icon: faCopy,     title: 'Data Sprawl',   desc: 'Copies everywhere, truth nowhere',              darkColor: '#48EFCF', lightColor: '#153385' },
+]
+
+const DEFAULT_MESH_NODES = [
+  { x: '9%',    y: '16%', label: 'Site 1', color: '#48EFCF', lightColor: '#0B64DD' },
+  { x: '44.5%', y: '16%', label: 'Site 2', color: '#F04E98', lightColor: '#0B64DD' },
+  { x: '80%',   y: '16%', label: 'Site N', color: '#FEC514', lightColor: '#0B64DD' },
+]
+
+const SEARCH_ITEM_ICONS  = [faBolt, faMagnifyingGlass, faClock, faDollarSign]
+const STORAGE_ITEM_ICONS = [faLayerGroup, faClock, faClock, faDollarSign]
 
 const MAX_MESH_BALLS = 12
 
@@ -97,11 +127,60 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
   const { shouldAnimate, getDuration } = useReducedMotion()
 
   // ── Content config ────────────────────────────────────────────────────────
-  const eyebrow      = metadata.eyebrow    || 'Data Architecture'
-  const titlePart1   = metadata.titlePart1 || 'From Chaos to '
-  const titlePart2   = metadata.titlePart2 || 'Clarity'
-  const subtitle     = metadata.subtitle   || 'How Elastic creates an enterprise-wide data mesh to search and act on data at scale.'
-  const questionText = metadata.question   || 'Why do we collect data?'
+
+  // Header
+  const eyebrow    = metadata.eyebrow    || 'Data Architecture'
+  const titlePart1 = metadata.titlePart1 || 'From Chaos to '
+  const titlePart2 = metadata.titlePart2 || 'Clarity'
+  const subtitle   = metadata.subtitle   || 'How Elastic creates an enterprise-wide data mesh to search and act on data at scale.'
+
+  // Stage nav — allow per-stage label overrides
+  const stages = STAGES.map((s, i) => ({ ...s, label: (metadata.stageLabels || [])[i] || s.label }))
+
+  // Stage 0 — The Question
+  const questionText  = metadata.question      || 'Why do we collect data?'
+  const answerHeading = metadata.answerHeading || 'To use it.'
+  const answerBody    = metadata.answerBody    || null
+  const answerFooter  = metadata.answerFooter  || null
+
+  // Stage 1 — The Dilemma
+  const dilemmaIntro            = metadata.dilemmaIntro            || 'The industry faced a choice...'
+  const dilemmaLeftTitle        = metadata.dilemmaLeftTitle        || 'Search'
+  const dilemmaLeftSubtitle     = metadata.dilemmaLeftSubtitle     || 'Like memory'
+  const dilemmaLeftItems        = (metadata.dilemmaLeftItems  || DEFAULT_SEARCH_ITEMS).map((item, i) => ({ ...item, icon: SEARCH_ITEM_ICONS[i]  }))
+  const dilemmaLeftFooter       = metadata.dilemmaLeftFooter       || 'Fast & flexible, but expensive'
+  const dilemmaRightTitle       = metadata.dilemmaRightTitle       || 'Storage'
+  const dilemmaRightSubtitle    = metadata.dilemmaRightSubtitle    || 'Like disk'
+  const dilemmaRightItems       = (metadata.dilemmaRightItems || DEFAULT_STORAGE_ITEMS).map((item, i) => ({ ...item, icon: STORAGE_ITEM_ICONS[i] }))
+  const dilemmaRightFooter      = metadata.dilemmaRightFooter      || 'Cheap but slow'
+  const dilemmaCalloutPrefix    = metadata.dilemmaCalloutPrefix    || 'Cost won. The industry went'
+  const dilemmaCalloutHighlight = metadata.dilemmaCalloutHighlight || 'storage-first'
+  const dilemmaCalloutSub       = metadata.dilemmaCalloutSub       || 'But that created new problems...'
+
+  // Stage 2 — The Problems
+  const problemsIntro   = metadata.problemsIntro   || 'Storage-first seemed smart… until the cracks appeared'
+  const problemsCards   = DEFAULT_PROBLEMS_CARDS.map((d, i) => ({ ...d, ...(metadata.problemsCards?.[i] || {}) }))
+  const problemsCallout = metadata.problemsCallout || 'The industry needed solutions. Workarounds emerged…'
+
+  // Stage 3 — The Workarounds
+  const workaroundsEyebrow       = metadata.workaroundsEyebrow       || "The Industry's Attempts"
+  const workaroundsHeadingPrefix = metadata.workaroundsHeadingPrefix || 'Workarounds emerged… but data stayed'
+  const workaroundsHighlight     = metadata.workaroundsHighlight     || 'trapped'
+  const workaroundsEmptyState    = metadata.workaroundsEmptyState    || 'Select a workaround to see why it falls short'
+  const workaroundsFallsShort    = metadata.workaroundsFallsShort    || 'Why it falls short'
+  const summaryCallout           = metadata.summaryCallout           || null
+  const arch = Object.fromEntries(
+    ['catalog', 'warehouse', 'lake', 'federation'].map((key, i) => [
+      key,
+      { ...ARCH[key], ...(metadata.archItems?.[i] || {}) }
+    ])
+  )
+
+  // Stage 4 — The Transformation
+  const siloTitle = metadata.siloTitle || 'What if you could search everywhere without copying anything?'
+  const meshTitle = metadata.meshTitle || 'The Elastic Data Mesh: Query globally, store locally'
+  const silos     = metadata.silos     || SILO_POSITIONS
+  const meshNodes = DEFAULT_MESH_NODES.map((d, i) => ({ ...d, ...(metadata.meshNodes?.[i] || {}) }))
 
   // ── Stable particle positions ─────────────────────────────────────────────
   const particles = useMemo(() =>
@@ -117,24 +196,10 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
     })), []
   )
 
-  // ── Search bar entrance animation (from HeroScene) ───────────────────────
+  // ── Reset search bar animation state when leaving stage 0 ───────────────
   useEffect(() => {
-    if (stage !== 0) { searchBarAnimatedRef.current = false; return }
-    if (searchBarAnimatedRef.current) return
-    searchBarAnimatedRef.current = true
-    if (!searchBarRef.current) return
-    if (shouldAnimate()) {
-      animate(searchBarRef.current, {
-        opacity: [0, 1],
-        translateY: [40, 0],
-        scale: [0.95, 1],
-        duration: getDuration(800),
-        easing: easingPresets.entrance,
-      })
-    } else {
-      searchBarRef.current.style.opacity = '1'
-    }
-  }, [stage]) // eslint-disable-line react-hooks/exhaustive-deps
+    if (stage !== 0) searchBarAnimatedRef.current = false
+  }, [stage])
 
   // ── Blinking cursor (from HeroScene) ─────────────────────────────────────
   useEffect(() => {
@@ -240,6 +305,11 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
   useLayoutEffect(() => {
     const items = Array.from(stageRef.current?.querySelectorAll('[data-ani]') ?? [])
     items.forEach(item => { item.style.opacity = '0'; item.style.transform = 'translateY(18px)' })
+    // Hide the search bar on stage 0 mount so it waits for the play-button trigger
+    if (stage === 0 && searchBarRef.current && !searchBarAnimatedRef.current) {
+      searchBarRef.current.style.opacity = '0'
+      searchBarRef.current.style.transform = 'translateY(40px)'
+    }
   }, [stage, showAnswer, meshActive, selectedArch])
 
   // ── Stage entrance — animate items in after paint ─────────────────────────
@@ -379,18 +449,40 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
     if (isTyping || searchComplete) return
     setIsTyping(true)
     if (textSpanRef.current) textSpanRef.current.textContent = ''
-    let idx = 0
-    const id = setInterval(() => {
-      idx++
-      if (textSpanRef.current) textSpanRef.current.textContent = questionText.slice(0, idx)
-      if (idx >= questionText.length) {
-        clearInterval(id)
-        setIsTyping(false)
-        setSearchComplete(true)
+
+    const beginTyping = () => {
+      let idx = 0
+      const id = setInterval(() => {
+        idx++
+        if (textSpanRef.current) textSpanRef.current.textContent = questionText.slice(0, idx)
+        if (idx >= questionText.length) {
+          clearInterval(id)
+          setIsTyping(false)
+          setSearchComplete(true)
+        }
+      }, 75)
+      timersRef.current.push(id)
+    }
+
+    if (!searchBarAnimatedRef.current && searchBarRef.current) {
+      searchBarAnimatedRef.current = true
+      if (shouldAnimate()) {
+        animate(searchBarRef.current, {
+          opacity: [0, 1],
+          translateY: [40, 0],
+          scale: [0.95, 1],
+          duration: getDuration(800),
+          easing: easingPresets.entrance,
+          onComplete: beginTyping,
+        })
+      } else {
+        searchBarRef.current.style.opacity = '1'
+        beginTyping()
       }
-    }, 75)
-    timersRef.current.push(id)
-  }, [isTyping, searchComplete, questionText])
+    } else {
+      beginTyping()
+    }
+  }, [isTyping, searchComplete, questionText, shouldAnimate, getDuration])
 
   // ── Stage navigation ──────────────────────────────────────────────────────
   const goToStage = useCallback((i) => {
@@ -542,7 +634,7 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
         <div className="flex gap-3 flex-1 min-h-0">
 
           {/* Stage content column */}
-          <div className="flex-1 min-h-0 flex flex-col gap-2 h-[450px] self-center">
+          <div className="flex-1 min-h-0 flex flex-col gap-2 h-[500px] self-center">
 
             {/* Stage area */}
             <div
@@ -570,7 +662,6 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
                       className={`relative flex items-center w-full px-8 py-5 rounded-full border-2 ${
                         isDark ? 'bg-white/[0.03] border-white/20' : 'bg-white border-elastic-dev-blue/20'
                       }`}
-                      style={{ opacity: 0 }}
                     >
                       <div className="flex-1 min-h-[40px] flex items-center">
                         <span
@@ -622,15 +713,14 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
                           className={`text-4xl md:text-5xl font-bold mb-3 ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}
                           style={{ opacity: 0 }}
                         >
-                          To use it.
+                          {answerHeading}
                         </p>
                         <p
                           ref={answerBodyRef}
                           className={`text-lg ${isDark ? 'text-white' : 'text-elastic-dev-blue'}`}
                           style={{ opacity: 0 }}
                         >
-                          Data is a <span className="italic">strategic asset</span>. We need to retrieve, connect, and act on it —
-                          <span className={`font-semibold ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}> fast</span>.
+                          {answerBody ?? <>Data is a <span className="italic">strategic asset</span>. We need to retrieve, connect, and act on it —<span className={`font-semibold ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}> fast</span>.</>}
                         </p>
                         <div
                           ref={answerFootRef}
@@ -638,8 +728,7 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
                           style={{ opacity: 0 }}
                         >
                           <p className={`text-lg ${isDark ? 'text-elastic-pink' : 'text-elastic-blue'}`}>
-                            But data is generated <span className="font-medium">everywhere</span>.{' '}
-                            How do you get total visibility at speed, at scale, without breaking the bank?
+                            {answerFooter ?? <>But data is generated <span className="font-medium">everywhere</span>.{' '}How do you get total visibility at speed, at scale, without breaking the bank?</>}
                           </p>
                         </div>
                       </div>
@@ -652,11 +741,11 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
               {stage === 1 && (
                 <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex flex-col items-center px-3 py-5 gap-2">
                   <p data-ani className={`text-xl text-center pb-[18px] ${isDark ? 'text-white/70' : 'text-elastic-dev-blue/70'}`}>
-                    The industry faced a choice...
+                    {dilemmaIntro}
                   </p>
 
                   <div className="flex items-stretch gap-6 w-full max-w-4xl">
-                    {/* Search side */}
+                    {/* Left side */}
                     <div data-ani
                       className={`flex-1 rounded-2xl border-2 p-3 ${isDark ? 'bg-elastic-teal/5' : 'bg-elastic-blue/5'}`}
                       style={{ borderColor: isDark ? '#48EFCF' : '#0B64DD' }}
@@ -666,17 +755,12 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
                           <FontAwesomeIcon icon={faMemory} className={`text-base ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`} />
                         </div>
                         <div>
-                          <h3 className={`text-base font-bold ${isDark ? 'text-white' : 'text-elastic-dev-blue'}`}>Search</h3>
-                          <p className={`text-xs ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}>Like memory</p>
+                          <h3 className={`text-base font-bold ${isDark ? 'text-white' : 'text-elastic-dev-blue'}`}>{dilemmaLeftTitle}</h3>
+                          <p className={`text-xs ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}>{dilemmaLeftSubtitle}</p>
                         </div>
                       </div>
                       <div className="space-y-1.5">
-                        {[
-                          { icon: faBolt,            text: 'Query instantly', good: true  },
-                          { icon: faMagnifyingGlass, text: 'Pivot & explore', good: true  },
-                          { icon: faClock,           text: 'Milliseconds',    good: true  },
-                          { icon: faDollarSign,      text: '$4+ per GB',      good: false },
-                        ].map((item, i) => (
+                        {dilemmaLeftItems.map((item, i) => (
                           <div key={i} className={`flex items-center justify-between px-3 py-1.5 rounded-lg ${isDark ? 'bg-white/[0.05]' : 'bg-white/60'}`}>
                             <div className="flex items-center gap-2">
                               <FontAwesomeIcon icon={item.icon} className={`text-sm ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`} />
@@ -688,7 +772,7 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
                         ))}
                       </div>
                       <p className={`text-sm italic text-center mt-2 ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
-                        Fast & flexible, but expensive
+                        {dilemmaLeftFooter}
                       </p>
                     </div>
 
@@ -699,7 +783,7 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
                       }`}>vs</div>
                     </div>
 
-                    {/* Storage side */}
+                    {/* Right side */}
                     <div data-ani
                       className={`flex-1 rounded-2xl border-2 p-3 ${isDark ? 'bg-orange-500/5' : 'bg-elastic-midnight/5'}`}
                       style={{ borderColor: isDark ? '#FF957D' : '#153385' }}
@@ -709,17 +793,12 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
                           <FontAwesomeIcon icon={faHardDrive} className={`text-base ${isDark ? 'text-orange-400' : 'text-elastic-midnight'}`} />
                         </div>
                         <div>
-                          <h3 className={`text-base font-bold ${isDark ? 'text-white' : 'text-elastic-dev-blue'}`}>Storage</h3>
-                          <p className={`text-xs ${isDark ? 'text-orange-400' : 'text-elastic-midnight'}`}>Like disk</p>
+                          <h3 className={`text-base font-bold ${isDark ? 'text-white' : 'text-elastic-dev-blue'}`}>{dilemmaRightTitle}</h3>
+                          <p className={`text-xs ${isDark ? 'text-orange-400' : 'text-elastic-midnight'}`}>{dilemmaRightSubtitle}</p>
                         </div>
                       </div>
                       <div className="space-y-1.5">
-                        {[
-                          { icon: faLayerGroup, text: 'Batch scan only',  good: false },
-                          { icon: faClock,      text: 'Rehydrate first',  good: false },
-                          { icon: faClock,      text: 'Minutes to hours', good: false },
-                          { icon: faDollarSign, text: '$0.02 per GB',     good: true  },
-                        ].map((item, i) => (
+                        {dilemmaRightItems.map((item, i) => (
                           <div key={i} className={`flex items-center justify-between px-3 py-1.5 rounded-lg ${isDark ? 'bg-white/[0.05]' : 'bg-white/60'}`}>
                             <div className="flex items-center gap-2">
                               <FontAwesomeIcon icon={item.icon} className={`text-sm ${isDark ? 'text-orange-400' : 'text-elastic-midnight'}`} />
@@ -731,7 +810,7 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
                         ))}
                       </div>
                       <p className={`text-sm italic text-center mt-2 ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
-                        Cheap but slow
+                        {dilemmaRightFooter}
                       </p>
                     </div>
                   </div>
@@ -741,10 +820,10 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
                   }`}>
                     <p className={`text-base ${isDark ? 'text-white' : 'text-elastic-dev-blue'}`}>
                       <FontAwesomeIcon icon={faDollarSign} className={`mr-2 ${isDark ? 'text-elastic-yellow' : 'text-elastic-blue'}`} />
-                      Cost won. The industry went <span className={`font-bold ${isDark ? 'text-orange-400' : 'text-elastic-midnight'}`}>storage-first</span>.
+                      {dilemmaCalloutPrefix} <span className={`font-bold ${isDark ? 'text-orange-400' : 'text-elastic-midnight'}`}>{dilemmaCalloutHighlight}</span>.
                     </p>
                     <p className={`text-sm mt-0.5 ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
-                      But that created new problems...
+                      {dilemmaCalloutSub}
                     </p>
                   </div>
                 </div>
@@ -754,16 +833,11 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
               {stage === 2 && (
                 <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex flex-col items-center p-4 gap-4 mt-[18px]">
                   <p data-ani className={`text-xl text-center mb-[18px] ${isDark ? 'text-white/70' : 'text-elastic-dev-blue/70'}`}>
-                    Storage-first seemed smart… until the cracks appeared
+                    {problemsIntro}
                   </p>
 
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl w-full">
-                    {[
-                      { icon: faDatabase, title: 'Data Silos',    desc: "Isolated pools that can't talk to each other",  darkColor: '#FF957D', lightColor: '#0B64DD' },
-                      { icon: faClock,    title: 'Slow Insights', desc: 'Minutes to hours before you can query',         darkColor: '#F04E98', lightColor: '#153385' },
-                      { icon: faGlobe,    title: 'No Visibility', desc: "Can't see across the enterprise",               darkColor: '#FEC514', lightColor: '#0B64DD' },
-                      { icon: faCopy,     title: 'Data Sprawl',   desc: 'Copies everywhere, truth nowhere',             darkColor: '#48EFCF', lightColor: '#153385' },
-                    ].map((p, i) => {
+                    {problemsCards.map((p, i) => {
                       const color = isDark ? p.darkColor : p.lightColor
                       return (
                         <div data-ani key={i}
@@ -784,7 +858,7 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
                     isDark ? 'bg-elastic-pink/10 border-elastic-pink/30' : 'bg-elastic-blue/5 border-elastic-blue/20'
                   }`}>
                     <p className={`text-base ${isDark ? 'text-elastic-pink' : 'text-elastic-blue'}`}>
-                      The industry needed solutions. Workarounds emerged…
+                      {problemsCallout}
                     </p>
                   </div>
                 </div>
@@ -794,11 +868,11 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
               {stage === 3 && (
                 <div className="absolute inset-0 flex flex-col p-4 gap-2">
                   <div className="text-center flex-shrink-0">
-                    <p className={`text-xs uppercase tracking-wider mb-0.5 ${isDark ? 'text-elastic-teal/60' : 'text-elastic-blue/70'}`}>
-                      The Industry's Attempts
+                    <p className={`text-sm uppercase tracking-wider mb-0.5 ${isDark ? 'text-elastic-teal/60' : 'text-elastic-blue/70'}`}>
+                      {workaroundsEyebrow}
                     </p>
-                    <h3 className={`text-lg mb-[18px] font-bold ${isDark ? 'text-white' : 'text-elastic-dev-blue'}`}>
-                      Workarounds emerged… but data stayed <span className={isDark ? 'text-orange-400' : 'text-elastic-blue'}>trapped</span>
+                    <h3 className={`text-xl mb-[18px] font-bold ${isDark ? 'text-white' : 'text-elastic-dev-blue'}`}>
+                      {workaroundsHeadingPrefix} <span className={isDark ? 'text-orange-400' : 'text-elastic-blue'}>{workaroundsHighlight}</span>
                     </h3>
                   </div>
 
@@ -839,9 +913,7 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
                           isDark ? 'bg-white/[0.02] border border-white/10' : 'bg-white/50 border border-elastic-dev-blue/10'
                         }`}>
                           <p className={`text-base ${isDark ? 'text-white/70' : 'text-elastic-dev-blue/70'}`}>
-                            The problem isn't <span className={`font-semibold ${isDark ? 'text-orange-400' : 'text-elastic-blue'}`}>where</span> data lives…
-                            It's whether you can{' '}
-                            <span className={`font-semibold ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}>search it all at once</span>.
+                            {summaryCallout ?? <>The problem isn't <span className={`font-semibold ${isDark ? 'text-orange-400' : 'text-elastic-blue'}`}>where</span> data lives… It's whether you can{' '}<span className={`font-semibold ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}>search it all at once</span>.</>}
                           </p>
                         </div>
                       </div>
@@ -855,7 +927,7 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
                             const active = selectedArch === type
                             return (
                               <div key={type}
-                                className={`rounded-xl border-2 p-5 flex flex-col items-center gap-3 cursor-pointer transition-all ${
+                                className={`rounded-xl border-2 p-6 flex flex-col items-center gap-3 cursor-pointer transition-all ${
                                   active
                                     ? isDark ? 'bg-white/[0.06]' : 'bg-white/80'
                                     : isDark ? 'bg-white/[0.02] opacity-60 hover:opacity-100' : 'bg-white/40 opacity-60 hover:opacity-100'
@@ -867,8 +939,8 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
                                   <FontAwesomeIcon icon={d.icon} className="text-xl" style={{ color: c }} />
                                 </div>
                                 <div className="text-center">
-                                  <p className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-elastic-dev-blue'}`}>{d.label}</p>
-                                  <p className={`text-xs mt-0.5 ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>{d.subtitle}</p>
+                                  <p className={`text-base font-semibold ${isDark ? 'text-white' : 'text-elastic-dev-blue'}`}>{d.label}</p>
+                                  <p className={`text-sm mt-0.5 ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>{d.subtitle}</p>
                                 </div>
                               </div>
                             )
@@ -880,7 +952,7 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
                           {selectedArch ? (
                             <div
                               ref={problemsPanelRef}
-                              className={`rounded-xl border-2 p-4 ${isDark ? 'bg-white/[0.02]' : 'bg-white/70'}`}
+                              className={`rounded-xl border-2 p-5 ${isDark ? 'bg-white/[0.02]' : 'bg-white/70'}`}
                               style={{ borderColor: `${isDark ? ARCH[selectedArch].color : ARCH[selectedArch].lightColor}40`, opacity: 0 }}
                             >
                               <div className="flex items-center gap-2 mb-4">
@@ -890,10 +962,10 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
                                     style={{ color: isDark ? ARCH[selectedArch].color : ARCH[selectedArch].lightColor }} />
                                 </div>
                                 <div>
-                                  <p className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-elastic-dev-blue'}`}>
+                                  <p className={`text-base font-semibold ${isDark ? 'text-white' : 'text-elastic-dev-blue'}`}>
                                     {ARCH[selectedArch].label}
                                   </p>
-                                  <p className={`text-xs ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Why it falls short</p>
+                                  <p className={`text-sm ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>{workaroundsFallsShort}</p>
                                 </div>
                               </div>
                               <div className="grid grid-cols-2 gap-2">
@@ -908,7 +980,7 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
                           ) : (
                             <div className="h-full flex items-center justify-center">
                               <p className={`text-sm ${isDark ? 'text-white/30' : 'text-elastic-dev-blue/30'}`}>
-                                Select a workaround to see why it falls short
+                                {workaroundsEmptyState}
                               </p>
                             </div>
                           )}
@@ -924,9 +996,7 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
                 <div className="absolute inset-0 flex flex-col p-4 gap-2">
                   <div data-ani className="text-center flex-shrink-0">
                     <p className={`text-lg font-bold ${isDark ? 'text-white/70' : 'text-elastic-blue'}`}>
-                      {meshActive
-                        ? 'The Elastic Data Mesh: Query globally, store locally'
-                        : 'What if you could search everywhere without copying anything?'}
+                      {meshActive ? meshTitle : siloTitle}
                     </p>
                   </div>
 
@@ -934,8 +1004,8 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
                     {!meshActive ? (
                       /* Before: scattered silos */
                       <div className="absolute inset-0">
-                        {SILO_POSITIONS.map((silo, i) => (
-                          <div data-ani key={i} className="absolute" style={{ left: silo.x, top: silo.y }}>
+                        {silos.map((silo, i) => (
+                          <div data-ani key={i} className="absolute" style={{ left: silo.x, top: silo.y, transform: 'translate(-50%, -50%)' }}>
                             <div className={`px-2 py-2 rounded-lg border-2 text-center ${isDark ? 'bg-white/[0.05]' : 'bg-white/70'}`}
                               style={{ borderColor: isDark ? `${silo.color}60` : '#0B64DD40' }}>
                               <FontAwesomeIcon icon={faDatabase} style={{ color: isDark ? silo.color : '#0B64DD' }} className="text-sm" />
@@ -946,8 +1016,8 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
                           </div>
                         ))}
                         {QM_POSITIONS.map((qm, i) => (
-                          <div key={i} className={`absolute select-none ${qm.size} font-bold ${isDark ? 'text-white/12' : 'text-elastic-dev-blue'}`}
-                            style={{ left: qm.x, top: qm.y }}>?
+                          <div key={i} className={`absolute select-none ${qm.size} font-bold ${isDark ? 'text-white' : 'text-elastic-dev-blue/20'}`}
+                            style={{ left: qm.x, top: qm.y, transform: 'translate(-50%, -50%)' }}>?
                           </div>
                         ))}
                       </div>
@@ -1014,11 +1084,7 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
                           ))}
 
                           {/* Site nodes */}
-                          {[
-                            { x: '9%',    y: '16%', label: 'Site 1', color: '#48EFCF', lightColor: '#0B64DD' },
-                            { x: '44.5%', y: '16%', label: 'Site 2', color: '#F04E98', lightColor: '#0B64DD' },
-                            { x: '80%',   y: '16%', label: 'Site N', color: '#FEC514', lightColor: '#0B64DD', italic: true },
-                          ].map((site, i) => {
+                          {meshNodes.map((site, i) => {
                             const c = isDark ? site.color : site.lightColor
                             return (
                               <div data-ani key={i}
@@ -1039,7 +1105,7 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
                                   </div>
                                 </div>
                                 <span className={`mt-6 text-sm font-medium ${isDark ? 'text-white/80' : 'text-elastic-dev-blue/80'}`}>
-                                  {site.italic ? <><i>Site</i> N</> : site.label}
+                                  {site.label}
                                 </span>
                               </div>
                             )
@@ -1064,9 +1130,9 @@ function DataMeshScene({ scenes = [], onNavigate, metadata = {}, runQuerySignal 
             {/* Progress fill */}
             <div
               className={`absolute w-px top-[20%] transition-all duration-700 ease-out ${isDark ? 'bg-elastic-teal/50' : 'bg-elastic-blue/40'}`}
-              style={{ height: `${(stage / (STAGES.length - 1)) * 60}%` }}
+              style={{ height: `${(stage / (stages.length - 1)) * 60}%` }}
             />
-            {STAGES.map((s, i) => {
+            {stages.map((s, i) => {
               const isActive = i === stage
               const isDone   = i < stage
               return (

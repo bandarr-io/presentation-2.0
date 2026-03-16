@@ -62,7 +62,7 @@ function TeamScene() {
           <p className={`text-sm font-semibold uppercase tracking-eyebrow pt-8 mb-4 ${
             isDark ? 'text-elastic-teal' : 'text-elastic-blue'
           }`}>
-            YOUR SUPPORT
+            {teamConfig.eyebrow || 'Your Support'}
           </p>
           <h2 className="font-headline text-4xl md:text-5xl font-extrabold mb-4">
             <span className={isDark ? 'text-white' : 'text-elastic-dark-ink'}>Meet Your </span>

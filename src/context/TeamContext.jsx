@@ -4,6 +4,7 @@ const TeamContext = createContext()
 const TEAM_STORAGE_KEY = 'presentation-team-config'
 
 const DEFAULT_TEAM_CONFIG = {
+  eyebrow: 'Your Support',
   title: 'Meet Your Elastic Team',
   subtitle: 'Our dedicated team is here to support your success.',
   members: [

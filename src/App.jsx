@@ -178,6 +178,7 @@ const AboutScene = ({ metadata = {} }) => {
   const isDark = theme === 'dark'
 
   // Use metadata values or defaults
+  const eyebrow = metadata.eyebrow || "Who We Are"
   const subtitle = metadata.subtitle || "The Search AI Company — powering search, observability, and security for thousands of organizations worldwide."
 
   const defaultStats = [
@@ -229,6 +230,9 @@ const AboutScene = ({ metadata = {} }) => {
       <div className="w-full max-w-[1400px] px-8">
         {/* Header */}
         <div className="text-center">
+          <p className={`text-sm font-semibold uppercase tracking-eyebrow pt-8 mb-4 ${isDark ? 'text-elastic-teal' : 'text-elastic-blue'}`}>
+            {eyebrow}
+          </p>
           <h2 className="font-headline text-4xl md:text-5xl font-extrabold mb-4">
             <span className={isDark ? 'text-white' : 'text-elastic-dark-ink'}>About </span>
             <span className={isDark ? 'text-elastic-teal' : 'text-elastic-blue'}>Elastic</span>
@@ -307,48 +311,39 @@ const AboutScene = ({ metadata = {} }) => {
   )
 }
 
-const BusinessValueScene = ({ selectedCard, setSelectedCard, showUnifiedMessage, setShowUnifiedMessage }) => {
+const BusinessValueScene = ({ selectedCard, setSelectedCard, showUnifiedMessage, setShowUnifiedMessage, metadata = {} }) => {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
 
-  const valueCards = [
-    {
-      id: 'risk',
-      icon: faShield,
-      title: 'Risk Reduction',
-      description: 'Reduce likelihood & severity of threats',
-      borderColor: '#48EFCF',
-      bgColor: 'rgba(72, 239, 207, 0.1)',
-      detailText: 'Elastic helps reduce your attack surface, detect threats faster, and improve your overall security posture.'
-    },
-    {
-      id: 'time',
-      icon: faClock,
-      title: 'Time Efficiency',
-      description: 'Do more with less',
-      borderColor: '#F04E98',
-      bgColor: 'rgba(240, 78, 152, 0.1)',
-      detailText: 'Elastic helps you automate manual tasks, streamline workflows, and get insights faster so your teams can focus on what matters most.'
-    },
-    {
-      id: 'resilience',
-      icon: faRocket,
-      title: 'Resilience',
-      description: 'Respond & recover faster',
-      borderColor: '#0B64DD',
-      bgColor: 'rgba(11, 100, 221, 0.1)',
-      detailText: 'Elastic helps you quickly identify and resolve issues, minimize downtime, and maintain business continuity even during incidents.'
-    },
-    {
-      id: 'cost',
-      icon: faCoins,
-      title: 'Cost Savings',
-      description: 'Reduce expenses prevent losses',
-      borderColor: '#FEC514',
-      bgColor: 'rgba(254, 197, 20, 0.1)',
-      detailText: 'Elastic helps you consolidate tools, optimize resource usage, and prevent costly security breaches and operational incidents.'
-    },
+  const eyebrow     = metadata.eyebrow     || 'Business Value'
+  const title       = metadata.title       || 'Delivering Measurable'
+  const titleHighlight = metadata.titleHighlight || 'Business Value'
+  const subtitle    = metadata.subtitle    || 'Elastic helps organizations in four key areas.'
+  const summaryText = metadata.summaryText || 'Elastic delivers tangible impact across all four areas with a unified platform.'
+
+  const defaultCards = [
+    { title: 'Risk Reduction',  description: 'Reduce likelihood & severity of threats',  detailText: 'Elastic helps reduce your attack surface, detect threats faster, and improve your overall security posture.' },
+    { title: 'Time Efficiency', description: 'Do more with less',                        detailText: 'Elastic helps you automate manual tasks, streamline workflows, and get insights faster so your teams can focus on what matters most.' },
+    { title: 'Resilience',      description: 'Respond & recover faster',                 detailText: 'Elastic helps you quickly identify and resolve issues, minimize downtime, and maintain business continuity even during incidents.' },
+    { title: 'Cost Savings',    description: 'Reduce expenses & prevent losses',          detailText: 'Elastic helps you consolidate tools, optimize resource usage, and prevent costly security breaches and operational incidents.' },
   ]
+
+  const cardColors = [
+    { borderColor: '#48EFCF', bgColor: 'rgba(72, 239, 207, 0.1)',  icon: faShield  },
+    { borderColor: '#F04E98', bgColor: 'rgba(240, 78, 152, 0.1)',  icon: faClock   },
+    { borderColor: '#0B64DD', bgColor: 'rgba(11, 100, 221, 0.1)',  icon: faRocket  },
+    { borderColor: '#FEC514', bgColor: 'rgba(254, 197, 20, 0.1)',  icon: faCoins   },
+  ]
+
+  const valueCards = defaultCards.map((defaults, i) => ({
+    id: ['risk', 'time', 'resilience', 'cost'][i],
+    icon:        cardColors[i].icon,
+    borderColor: cardColors[i].borderColor,
+    bgColor:     cardColors[i].bgColor,
+    title:       metadata.cards?.[i]?.title       || defaults.title,
+    description: metadata.cards?.[i]?.description || defaults.description,
+    detailText:  metadata.cards?.[i]?.detailText  || defaults.detailText,
+  }))
 
   return (
     <div className="flex flex-col items-center justify-center h-full w-full py-12 overflow-y-auto">
@@ -358,14 +353,14 @@ const BusinessValueScene = ({ selectedCard, setSelectedCard, showUnifiedMessage,
           <p className={`text-sm font-semibold uppercase tracking-eyebrow pt-8 mb-4 ${
             isDark ? 'text-elastic-teal' : 'text-elastic-blue'
           }`}>
-            BUSINESS VALUE
+            {eyebrow}
           </p>
           <h2 className="font-headline text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
-            <span className={isDark ? 'text-white' : 'text-elastic-dark-ink'}>Delivering Measurable</span>
-            <span className={isDark ? 'text-elastic-teal' : 'text-elastic-blue'}> Business Value</span>
+            <span className={isDark ? 'text-white' : 'text-elastic-dark-ink'}>{title}</span>
+            <span className={isDark ? 'text-elastic-teal' : 'text-elastic-blue'}> {titleHighlight}</span>
           </h2>
           <p className={`text-paragraph text-lg md:text-xl max-w-3xl mx-auto pt-1 pb-8 ${isDark ? 'text-elastic-light-grey' : 'text-elastic-ink'}`}>
-            Elastic helps organizations in <span className={`font-bold ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>four key areas.</span>
+            {subtitle}
           </p>
         </div>
 
@@ -445,10 +440,7 @@ const BusinessValueScene = ({ selectedCard, setSelectedCard, showUnifiedMessage,
               <p className={`text-2xl font-semibold max-w-4xl ${
                 isDark ? 'text-white' : 'text-elastic-dark-ink'
               }`}>
-                Elastic delivers tangible impact across all four areas with a{' '}
-                <span className={isDark ? 'text-elastic-teal' : 'text-elastic-blue'}>
-                  unified platform.
-                </span>
+                {summaryText}
               </p>
             </div>
           ) : !selectedCard ? (
@@ -491,11 +483,16 @@ const ProblemPatternsScene = ({ metadata = {} }) => {
     ],
     search: [
       'Slow or irrelevant search results',
-      'Limited semantic or vector search capabilities',
+      'Limited semantic or vector search',
       'Tool sprawl and cost pressure',
       'Difficulty scaling search infrastructure'
     ]
   }
+
+  const eyebrow        = metadata.eyebrow        || 'Problem Orientation'
+  const title          = metadata.title          || 'Common'
+  const titleHighlight = metadata.titleHighlight || 'Problem Patterns'
+  const subtitle       = metadata.subtitle       || "Elastic is broad, so rather than walk through everything, let's orient around the problems teams typically solve with it."
 
   // Use custom problems from metadata or defaults
   const customProblems = metadata.problems || {}
@@ -581,16 +578,16 @@ const ProblemPatternsScene = ({ metadata = {} }) => {
           <p className={`text-sm font-semibold uppercase tracking-eyebrow pt-8 mb-4 ${
             isDark ? 'text-elastic-teal' : 'text-elastic-blue'
           }`}>
-            PROBLEM ORIENTATION
+            {eyebrow}
           </p>
           <h2 className="font-headline text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
-            <span className={isDark ? 'text-white' : 'text-elastic-dark-ink'}>Common </span>
+            <span className={isDark ? 'text-white' : 'text-elastic-dark-ink'}>{title} </span>
             <span className={isDark ? 'text-elastic-teal' : 'text-elastic-blue'}>
-              Problem Patterns
+              {titleHighlight}
             </span>
           </h2>
           <p className={`text-paragraph text-lg md:text-xl mx-auto pt-1 pb-8 ${isDark ? 'text-elastic-light-grey' : 'text-elastic-ink'}`}>
-            Elastic is broad, so rather than walk through everything, let's orient around the problems teams typically solve with it.
+            {subtitle}
           </p>
         </div>
 
@@ -1036,7 +1033,8 @@ function AppContent() {
       selectedCard: businessValueSelectedCard,
       setSelectedCard: setBusinessValueSelectedCard,
       showUnifiedMessage: businessValueShowUnified,
-      setShowUnifiedMessage: setBusinessValueShowUnified
+      setShowUnifiedMessage: setBusinessValueShowUnified,
+      metadata: sceneMetadata?.['business-value'] || {}
     }
   } else if (currentSceneId === 'problem-patterns') {
     sceneProps = { metadata: sceneMetadata?.['problem-patterns'] || {} }

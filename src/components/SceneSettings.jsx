@@ -176,53 +176,55 @@ function ConsolidationToolEditor({ metadata, onUpdate, isDark, inputClass }) {
         </button>
       </div>
 
-      <div className="grid grid-cols-2 gap-x-4 gap-y-2 items-start">
-        {/* Column headers */}
-        <p className={`text-xs font-semibold ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Replace</p>
-        <p className={`text-xs font-semibold ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Integrate</p>
-
-        {/* Replace column */}
-        <div className="space-y-2">
-          {tools.map((tool, i) => tool.type !== 'consolidate' ? null : (
-            <div key={i} className={`p-2 rounded-lg border ${isDark ? 'bg-white/[0.03] border-white/10' : 'bg-elastic-dev-blue/[0.02] border-elastic-dev-blue/10'}`}>
-              <input
-                type="text"
-                value={tool.name}
-                onChange={(e) => updateTool(i, 'name', e.target.value)}
-                placeholder="Tool name"
-                className={`w-full px-2 py-1 text-xs rounded border mb-1.5 ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-white/30' : 'bg-white border-elastic-dev-blue/10 text-elastic-dev-blue placeholder-elastic-dev-blue/30'}`}
-              />
-              <input
-                type="text"
-                value={tool.category}
-                onChange={(e) => updateTool(i, 'category', e.target.value)}
-                placeholder="Category"
-                className={`w-full px-2 py-1 text-xs rounded border ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-white/30' : 'bg-white border-elastic-dev-blue/10 text-elastic-dev-blue placeholder-elastic-dev-blue/30'}`}
-              />
-            </div>
-          ))}
+      <div className="space-y-4">
+        {/* Replace row */}
+        <div>
+          <p className={`text-xs font-semibold mb-2 ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Replace</p>
+          <div className="grid grid-cols-6 gap-2">
+            {tools.map((tool, i) => tool.type !== 'consolidate' ? null : (
+              <div key={i} className={`p-2 rounded-lg border ${isDark ? 'bg-white/[0.03] border-white/10' : 'bg-elastic-dev-blue/[0.02] border-elastic-dev-blue/10'}`}>
+                <input
+                  type="text"
+                  value={tool.name}
+                  onChange={(e) => updateTool(i, 'name', e.target.value)}
+                  placeholder="Tool name"
+                  className={`w-full px-2 py-1 text-xs rounded border mb-1.5 ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-white/30' : 'bg-white border-elastic-dev-blue/10 text-elastic-dev-blue placeholder-elastic-dev-blue/30'}`}
+                />
+                <input
+                  type="text"
+                  value={tool.category}
+                  onChange={(e) => updateTool(i, 'category', e.target.value)}
+                  placeholder="Category"
+                  className={`w-full px-2 py-1 text-xs rounded border ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-white/30' : 'bg-white border-elastic-dev-blue/10 text-elastic-dev-blue placeholder-elastic-dev-blue/30'}`}
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Integrate column */}
-        <div className="space-y-2">
-          {tools.map((tool, i) => tool.type !== 'integrate' ? null : (
-            <div key={i} className={`p-2 rounded-lg border ${isDark ? 'bg-white/[0.03] border-white/10' : 'bg-elastic-dev-blue/[0.02] border-elastic-dev-blue/10'}`}>
-              <input
-                type="text"
-                value={tool.name}
-                onChange={(e) => updateTool(i, 'name', e.target.value)}
-                placeholder="Tool name"
-                className={`w-full px-2 py-1 text-xs rounded border mb-1.5 ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-white/30' : 'bg-white border-elastic-dev-blue/10 text-elastic-dev-blue placeholder-elastic-dev-blue/30'}`}
-              />
-              <input
-                type="text"
-                value={tool.category}
-                onChange={(e) => updateTool(i, 'category', e.target.value)}
-                placeholder="Category"
-                className={`w-full px-2 py-1 text-xs rounded border ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-white/30' : 'bg-white border-elastic-dev-blue/10 text-elastic-dev-blue placeholder-elastic-dev-blue/30'}`}
-              />
-            </div>
-          ))}
+        {/* Integrate row */}
+        <div>
+          <p className={`text-xs font-semibold mb-2 ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Integrate</p>
+          <div className="grid grid-cols-6 gap-2">
+            {tools.map((tool, i) => tool.type !== 'integrate' ? null : (
+              <div key={i} className={`p-2 rounded-lg border ${isDark ? 'bg-white/[0.03] border-white/10' : 'bg-elastic-dev-blue/[0.02] border-elastic-dev-blue/10'}`}>
+                <input
+                  type="text"
+                  value={tool.name}
+                  onChange={(e) => updateTool(i, 'name', e.target.value)}
+                  placeholder="Tool name"
+                  className={`w-full px-2 py-1 text-xs rounded border mb-1.5 ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-white/30' : 'bg-white border-elastic-dev-blue/10 text-elastic-dev-blue placeholder-elastic-dev-blue/30'}`}
+                />
+                <input
+                  type="text"
+                  value={tool.category}
+                  onChange={(e) => updateTool(i, 'category', e.target.value)}
+                  placeholder="Category"
+                  className={`w-full px-2 py-1 text-xs rounded border ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-white/30' : 'bg-white border-elastic-dev-blue/10 text-elastic-dev-blue placeholder-elastic-dev-blue/30'}`}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -287,7 +289,7 @@ function SceneItem({
   const displayTitle = metadata.title || scene.title
   const displayDescription = metadata.description || ''
   const hasAgendaContent = scene.id !== 'hero'
-  const hasExpandableContent = true // All scenes can be expanded now
+  const hasExpandableContent = scene.id !== 'hero'
 
   const inputClass = `w-full px-3 py-2 text-sm rounded-lg border ${
     isDark
@@ -437,76 +439,9 @@ function SceneItem({
       {/* Expanded Details */}
       {isExpanded && (
         <div className={`px-4 pb-4 pt-0 space-y-3 border-t ${isDark ? 'border-white/10' : 'border-elastic-dev-blue/10'}`}>
-          {scene.id === 'hero' ? (
-            // Hero Scene Fields
+          {scene.id !== 'hero' && (
             <>
-              <div className="pt-3">
-                <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
-                  Typing Text
-                </label>
-                <input
-                  type="text"
-                  value={metadata.typingText || ''}
-                  onChange={(e) => onUpdateSceneMetadata(scene.id, { ...metadata, typingText: e.target.value })}
-                  className={inputClass}
-                  placeholder="The Elastic Search AI Platform"
-                />
-                <p className={`text-xs mt-1 ${isDark ? 'text-white/30' : 'text-elastic-dev-blue/30'}`}>
-                  Text that types out in the search bar animation
-                </p>
-              </div>
-              
-              <div>
-                <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
-                  Banner Title
-                </label>
-                <input
-                  type="text"
-                  value={metadata.bannerTitle || ''}
-                  onChange={(e) => onUpdateSceneMetadata(scene.id, { ...metadata, bannerTitle: e.target.value })}
-                  className={inputClass}
-                  placeholder="The Elastic Search AI Platform:"
-                />
-                <p className={`text-xs mt-1 ${isDark ? 'text-white/30' : 'text-elastic-dev-blue/30'}`}>
-                  First line of the banner title
-                </p>
-              </div>
-              
-              <div>
-                <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
-                  Banner Highlight Text
-                </label>
-                <input
-                  type="text"
-                  value={metadata.bannerHighlight || ''}
-                  onChange={(e) => onUpdateSceneMetadata(scene.id, { ...metadata, bannerHighlight: e.target.value })}
-                  className={inputClass}
-                  placeholder="Transforming Data into Action"
-                />
-                <p className={`text-xs mt-1 ${isDark ? 'text-white/30' : 'text-elastic-dev-blue/30'}`}>
-                  Second line (highlighted in gradient/blue)
-                </p>
-              </div>
-              
-              <div>
-                <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
-                  Banner Subtitle
-                </label>
-                <input
-                  type="text"
-                  value={metadata.bannerSubtitle || ''}
-                  onChange={(e) => onUpdateSceneMetadata(scene.id, { ...metadata, bannerSubtitle: e.target.value })}
-                  className={inputClass}
-                  placeholder="Unleash the Power of Real-Time Insights, Scale, and Innovation"
-                />
-                <p className={`text-xs mt-1 ${isDark ? 'text-white/30' : 'text-elastic-dev-blue/30'}`}>
-                  Subtitle text below the main title
-                </p>
-              </div>
-            </>
-          ) : (
-            // Agenda Scene Fields
-            <>
+              {/* Agenda Scene Fields */}
               <div className="pt-3">
                 <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
                   Agenda Group
@@ -622,6 +557,16 @@ function TeamEditorPanel({ isDark }) {
           Page Header
         </h3>
         <div className="space-y-3">
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Eyebrow</label>
+            <input
+              type="text"
+              value={teamConfig.eyebrow ?? ''}
+              onChange={(e) => updateTeamConfig({ ...teamConfig, eyebrow: e.target.value })}
+              className={inputClass}
+              placeholder="Your Support"
+            />
+          </div>
           <div>
             <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Title</label>
             <input
@@ -1235,10 +1180,13 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
           onChange={(e) => setSelectedScene(e.target.value)}
           className={inputClass}
         >
+          <option value="hero">Hero</option>
           <option value="about">About Elastic</option>
+          <option value="business-value">Business Value</option>
           <option value="problem-patterns">Problem Patterns</option>
           <option value="unified-strategy">Platform Overview</option>
           <option value="data-explosion">Data Explosion</option>
+          <option value="data-mesh">Data Mesh</option>
           <option value="cross-cluster">Cross-Cluster</option>
           <option value="schema">Schema</option>
           <option value="access-control">Access Control</option>
@@ -1250,11 +1198,99 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
         </select>
       </div>
 
+      {selectedScene === 'hero' && (
+        <div className="space-y-6 mt-6">
+          <h3 className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
+            Hero Content
+          </h3>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
+              Typing Text
+            </label>
+            <input
+              type="text"
+              value={sceneMetadata?.hero?.typingText || ''}
+              onChange={(e) => onUpdateSceneMetadata('hero', { ...sceneMetadata?.hero, typingText: e.target.value })}
+              className={inputClass}
+              placeholder="The Elastic Search AI Platform"
+            />
+            <p className={`text-xs mt-1 ${isDark ? 'text-white/30' : 'text-elastic-dev-blue/30'}`}>
+              Text that types out in the search bar animation
+            </p>
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
+              Banner Title
+            </label>
+            <input
+              type="text"
+              value={sceneMetadata?.hero?.bannerTitle || ''}
+              onChange={(e) => onUpdateSceneMetadata('hero', { ...sceneMetadata?.hero, bannerTitle: e.target.value })}
+              className={inputClass}
+              placeholder="The Elastic Search AI Platform:"
+            />
+            <p className={`text-xs mt-1 ${isDark ? 'text-white/30' : 'text-elastic-dev-blue/30'}`}>
+              First line of the banner title
+            </p>
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
+              Banner Highlight Text
+            </label>
+            <input
+              type="text"
+              value={sceneMetadata?.hero?.bannerHighlight || ''}
+              onChange={(e) => onUpdateSceneMetadata('hero', { ...sceneMetadata?.hero, bannerHighlight: e.target.value })}
+              className={inputClass}
+              placeholder="Transforming Data into Action"
+            />
+            <p className={`text-xs mt-1 ${isDark ? 'text-white/30' : 'text-elastic-dev-blue/30'}`}>
+              Second line (highlighted in gradient/blue)
+            </p>
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
+              Banner Subtitle
+            </label>
+            <input
+              type="text"
+              value={sceneMetadata?.hero?.bannerSubtitle || ''}
+              onChange={(e) => onUpdateSceneMetadata('hero', { ...sceneMetadata?.hero, bannerSubtitle: e.target.value })}
+              className={inputClass}
+              placeholder="Unleash the Power of Real-Time Insights, Scale, and Innovation"
+            />
+            <p className={`text-xs mt-1 ${isDark ? 'text-white/30' : 'text-elastic-dev-blue/30'}`}>
+              Subtitle text below the main title
+            </p>
+          </div>
+        </div>
+      )}
+
       {selectedScene === 'about' && (
         <div className="space-y-6 mt-6">
           <h3 className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
             About Elastic Content
           </h3>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
+              Eyebrow
+            </label>
+            <input
+              type="text"
+              value={sceneMetadata?.about?.eyebrow || ''}
+              onChange={(e) => onUpdateSceneMetadata('about', {
+                ...sceneMetadata?.about,
+                eyebrow: e.target.value
+              })}
+              className={inputClass}
+              placeholder="Who We Are"
+            />
+          </div>
 
           <div>
             <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
@@ -1276,10 +1312,11 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
           </div>
 
           {/* Stats Cards */}
-          <div className="space-y-4">
-            <h4 className={`text-sm font-semibold ${isDark ? 'text-white/70' : 'text-elastic-dark-ink/70'}`}>
+          <div>
+            <h4 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white/70' : 'text-elastic-dark-ink/70'}`}>
               Statistics Cards
             </h4>
+            <div className="grid grid-cols-2 gap-3">
             {[
               { index: 0, defaultValue: '5B+', defaultLabel: 'Downloads', defaultDesc: 'Open source downloads worldwide' },
               { index: 1, defaultValue: '54%', defaultLabel: 'Fortune 500', defaultDesc: 'Trust Elastic for their data needs' },
@@ -1354,13 +1391,15 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
                 </div>
               </div>
             ))}
+            </div>
           </div>
 
           {/* Features Cards */}
-          <div className="space-y-4">
-            <h4 className={`text-sm font-semibold ${isDark ? 'text-white/70' : 'text-elastic-dark-ink/70'}`}>
+          <div>
+            <h4 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white/70' : 'text-elastic-dark-ink/70'}`}>
               Features Cards
             </h4>
+            <div className="grid grid-cols-2 gap-3">
             {[
               { index: 0, defaultTitle: 'Search Pioneer', defaultDesc: 'Built on Apache Lucene, the gold standard for search' },
               { index: 1, defaultTitle: 'Data at Scale', defaultDesc: 'Petabytes of data processed daily by our customers' },
@@ -1415,6 +1454,113 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
                 </div>
               </div>
             ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {selectedScene === 'business-value' && (
+        <div className="space-y-6 mt-6">
+          <h3 className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
+            Business Value Content
+          </h3>
+
+          {/* Header */}
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Eyebrow</label>
+            <input
+              type="text"
+              value={sceneMetadata?.['business-value']?.eyebrow || ''}
+              onChange={(e) => onUpdateSceneMetadata('business-value', { ...sceneMetadata?.['business-value'], eyebrow: e.target.value })}
+              className={inputClass}
+              placeholder="Business Value"
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Title</label>
+            <input
+              type="text"
+              value={sceneMetadata?.['business-value']?.title || ''}
+              onChange={(e) => onUpdateSceneMetadata('business-value', { ...sceneMetadata?.['business-value'], title: e.target.value })}
+              className={inputClass}
+              placeholder="Delivering Measurable"
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Title Highlight</label>
+            <input
+              type="text"
+              value={sceneMetadata?.['business-value']?.titleHighlight || ''}
+              onChange={(e) => onUpdateSceneMetadata('business-value', { ...sceneMetadata?.['business-value'], titleHighlight: e.target.value })}
+              className={inputClass}
+              placeholder="Business Value"
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Subtitle</label>
+            <input
+              type="text"
+              value={sceneMetadata?.['business-value']?.subtitle || ''}
+              onChange={(e) => onUpdateSceneMetadata('business-value', { ...sceneMetadata?.['business-value'], subtitle: e.target.value })}
+              className={inputClass}
+              placeholder="Elastic helps organizations in four key areas."
+            />
+          </div>
+
+          <div>
+            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Summary Message</label>
+            <input
+              type="text"
+              value={sceneMetadata?.['business-value']?.summaryText || ''}
+              onChange={(e) => onUpdateSceneMetadata('business-value', { ...sceneMetadata?.['business-value'], summaryText: e.target.value })}
+              className={inputClass}
+              placeholder="Elastic delivers tangible impact across all four areas with a unified platform."
+            />
+            <p className={`text-xs mt-1 ${isDark ? 'text-white/30' : 'text-elastic-dev-blue/30'}`}>
+              Appears after all four cards have been clicked
+            </p>
+          </div>
+
+          {/* Value Cards */}
+          <div>
+            <h4 className={`text-sm font-semibold mb-3 ${isDark ? 'text-white/70' : 'text-elastic-dark-ink/70'}`}>Value Cards</h4>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { index: 0, defaultTitle: 'Risk Reduction',  defaultDesc: 'Reduce likelihood & severity of threats',  defaultDetail: 'Elastic helps reduce your attack surface, detect threats faster, and improve your overall security posture.' },
+                { index: 1, defaultTitle: 'Time Efficiency', defaultDesc: 'Do more with less',                        defaultDetail: 'Elastic helps you automate manual tasks, streamline workflows, and get insights faster so your teams can focus on what matters most.' },
+                { index: 2, defaultTitle: 'Resilience',      defaultDesc: 'Respond & recover faster',                 defaultDetail: 'Elastic helps you quickly identify and resolve issues, minimize downtime, and maintain business continuity even during incidents.' },
+                { index: 3, defaultTitle: 'Cost Savings',    defaultDesc: 'Reduce expenses & prevent losses',          defaultDetail: 'Elastic helps you consolidate tools, optimize resource usage, and prevent costly security breaches and operational incidents.' },
+              ].map(({ index, defaultTitle, defaultDesc, defaultDetail }) => {
+                const cards = sceneMetadata?.['business-value']?.cards || []
+                const updateCard = (field, value) => {
+                  const updated = [...cards]
+                  updated[index] = { ...(updated[index] || {}), [field]: value }
+                  onUpdateSceneMetadata('business-value', { ...sceneMetadata?.['business-value'], cards: updated })
+                }
+                return (
+                  <div key={index} className={`p-3 rounded-lg border ${isDark ? 'border-white/10 bg-white/[0.02]' : 'border-elastic-dev-blue/10 bg-elastic-dev-blue/[0.02]'}`}>
+                    <p className={`text-xs font-semibold mb-2 ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Card #{index + 1}</p>
+                    <div className="space-y-2">
+                      <div>
+                        <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Title</label>
+                        <input type="text" value={cards[index]?.title || ''} onChange={(e) => updateCard('title', e.target.value)} className={inputClass} placeholder={defaultTitle} />
+                      </div>
+                      <div>
+                        <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Description</label>
+                        <input type="text" value={cards[index]?.description || ''} onChange={(e) => updateCard('description', e.target.value)} className={inputClass} placeholder={defaultDesc} />
+                      </div>
+                      <div>
+                        <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Detail Text</label>
+                        <input type="text" value={cards[index]?.detailText || ''} onChange={(e) => updateCard('detailText', e.target.value)} className={inputClass} placeholder={defaultDetail} />
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
           </div>
         </div>
       )}
@@ -1424,6 +1570,50 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
           <h3 className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
             Problem Patterns Content
           </h3>
+
+          {/* Header */}
+          <div className="space-y-3">
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Eyebrow</label>
+              <input
+                type="text"
+                value={problemPatterns.eyebrow || ''}
+                onChange={(e) => onUpdateSceneMetadata('problem-patterns', { ...problemPatterns, eyebrow: e.target.value })}
+                className={inputClass}
+                placeholder="Problem Orientation"
+              />
+            </div>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Title</label>
+              <input
+                type="text"
+                value={problemPatterns.title || ''}
+                onChange={(e) => onUpdateSceneMetadata('problem-patterns', { ...problemPatterns, title: e.target.value })}
+                className={inputClass}
+                placeholder="Common"
+              />
+            </div>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Title Highlight</label>
+              <input
+                type="text"
+                value={problemPatterns.titleHighlight || ''}
+                onChange={(e) => onUpdateSceneMetadata('problem-patterns', { ...problemPatterns, titleHighlight: e.target.value })}
+                className={inputClass}
+                placeholder="Problem Patterns"
+              />
+            </div>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Subtitle</label>
+              <input
+                type="text"
+                value={problemPatterns.subtitle || ''}
+                onChange={(e) => onUpdateSceneMetadata('problem-patterns', { ...problemPatterns, subtitle: e.target.value })}
+                className={inputClass}
+                placeholder="Elastic is broad, so rather than walk through everything, let's orient around the problems teams typically solve with it."
+              />
+            </div>
+          </div>
 
           {/* Observability Problems */}
           <div className="space-y-3">
@@ -1494,7 +1684,7 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
                   className={inputClass}
                   placeholder={
                     index === 0 ? 'Slow or irrelevant search results' :
-                    index === 1 ? 'Limited semantic or vector search capabilities' :
+                    index === 1 ? 'Limited semantic or vector search' :
                     index === 2 ? 'Tool sprawl and cost pressure' :
                     'Difficulty scaling search infrastructure'
                   }
@@ -1668,6 +1858,371 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
         </div>
       )}
 
+      {selectedScene === 'data-mesh' && (
+        <div className="space-y-6 mt-6">
+          <h3 className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
+            Data Mesh Content
+          </h3>
+
+          {/* ── Header ── */}
+          <div className="space-y-3">
+            <h4 className={`text-xs font-semibold uppercase tracking-wide ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Header</h4>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Eyebrow</label>
+              <input type="text" value={sceneMetadata?.['data-mesh']?.eyebrow || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], eyebrow: e.target.value })} className={inputClass} placeholder="Data Architecture" />
+            </div>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Title Part 1</label>
+              <input type="text" value={sceneMetadata?.['data-mesh']?.titlePart1 || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], titlePart1: e.target.value })} className={inputClass} placeholder="From Chaos to " />
+            </div>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Title Part 2 (highlighted)</label>
+              <input type="text" value={sceneMetadata?.['data-mesh']?.titlePart2 || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], titlePart2: e.target.value })} className={inputClass} placeholder="Clarity" />
+            </div>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Subtitle</label>
+              <textarea value={sceneMetadata?.['data-mesh']?.subtitle || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], subtitle: e.target.value })} className={textareaClass} rows={2} placeholder="How Elastic creates an enterprise-wide data mesh to search and act on data at scale." />
+            </div>
+          </div>
+
+          {/* ── Stage Nav Labels + Stage 1 — side by side ── */}
+          <div className="grid gap-4 items-start" style={{ gridTemplateColumns: '30% 1fr' }}>
+
+            {/* Stage Nav Labels */}
+            <div className="space-y-3">
+              <h4 className={`text-xs font-semibold uppercase tracking-wide ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Stage Nav Labels</h4>
+              {['The Question', 'The Dilemma', 'The Problems', 'The Workarounds', 'The Solution'].map((placeholder, i) => (
+                <div key={i}>
+                  <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Stage {i + 1}</label>
+                  <input
+                    type="text"
+                    value={sceneMetadata?.['data-mesh']?.stageLabels?.[i] || ''}
+                    onChange={(e) => {
+                      const labels = [...(sceneMetadata?.['data-mesh']?.stageLabels || ['', '', '', '', ''])]
+                      labels[i] = e.target.value
+                      onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], stageLabels: labels })
+                    }}
+                    className={inputClass}
+                    placeholder={placeholder}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Stage 1 — The Question */}
+            <div className="space-y-3">
+              <h4 className={`text-xs font-semibold uppercase tracking-wide ${isDark ? 'text-elastic-teal/70' : 'text-elastic-blue'}`}>Stage 1 — {sceneMetadata?.['data-mesh']?.stageLabels?.[0] || 'The Question'}</h4>
+              <div>
+                <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Search bar question</label>
+                <input type="text" value={sceneMetadata?.['data-mesh']?.question || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], question: e.target.value })} className={inputClass} placeholder="Why do we collect data?" />
+              </div>
+              <div>
+                <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Answer heading</label>
+                <input type="text" value={sceneMetadata?.['data-mesh']?.answerHeading || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], answerHeading: e.target.value })} className={inputClass} placeholder="To use it." />
+              </div>
+              <div>
+                <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Answer body</label>
+                <textarea value={sceneMetadata?.['data-mesh']?.answerBody || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], answerBody: e.target.value })} className={textareaClass} rows={2} placeholder="Data is a strategic asset. We need to retrieve, connect, and act on it — fast." />
+              </div>
+              <div>
+                <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Answer footer</label>
+                <textarea value={sceneMetadata?.['data-mesh']?.answerFooter || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], answerFooter: e.target.value })} className={textareaClass} rows={2} placeholder="But data is generated everywhere. How do you get total visibility at speed, at scale, without breaking the bank?" />
+              </div>
+            </div>
+
+          </div>
+
+          {/* ── Stage 1 — The Dilemma ── */}
+          <div className="space-y-3">
+            <h4 className={`text-xs font-semibold uppercase tracking-wide ${isDark ? 'text-elastic-teal/70' : 'text-elastic-blue'}`}>Stage 2 — {sceneMetadata?.['data-mesh']?.stageLabels?.[1] || 'The Dilemma'}</h4>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Intro text</label>
+              <input type="text" value={sceneMetadata?.['data-mesh']?.dilemmaIntro || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], dilemmaIntro: e.target.value })} className={inputClass} placeholder="The industry faced a choice..." />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              {/* Left card */}
+              <div className={`p-3 rounded-lg border space-y-2 ${isDark ? 'border-white/10 bg-white/[0.02]' : 'border-elastic-dev-blue/10 bg-elastic-dev-blue/[0.02]'}`}>
+                <p className={`text-xs font-semibold ${isDark ? 'text-elastic-teal/80' : 'text-elastic-blue'}`}>Left card</p>
+                <div>
+                  <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Title</label>
+                  <input type="text" value={sceneMetadata?.['data-mesh']?.dilemmaLeftTitle || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], dilemmaLeftTitle: e.target.value })} className={inputClass} placeholder="Search" />
+                </div>
+                <div>
+                  <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Subtitle</label>
+                  <input type="text" value={sceneMetadata?.['data-mesh']?.dilemmaLeftSubtitle || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], dilemmaLeftSubtitle: e.target.value })} className={inputClass} placeholder="Like memory" />
+                </div>
+                {['Query instantly ✓', 'Pivot & explore ✓', 'Milliseconds ✓', '$4+ per GB ✗'].map((placeholder, i) => (
+                  <div key={i}>
+                    <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Item {i + 1}</label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={sceneMetadata?.['data-mesh']?.dilemmaLeftItems?.[i]?.text || ''}
+                        onChange={(e) => {
+                          const items = [...(sceneMetadata?.['data-mesh']?.dilemmaLeftItems || [{}, {}, {}, {}])]
+                          items[i] = { ...items[i], text: e.target.value }
+                          onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], dilemmaLeftItems: items })
+                        }}
+                        className={`${inputClass} w-[80%]`}
+                        placeholder={placeholder.replace(' ✓', '').replace(' ✗', '')}
+                      />
+                      <select
+                        value={sceneMetadata?.['data-mesh']?.dilemmaLeftItems?.[i]?.good ?? (i < 3 ? true : false)}
+                        onChange={(e) => {
+                          const items = [...(sceneMetadata?.['data-mesh']?.dilemmaLeftItems || [{}, {}, {}, {}])]
+                          items[i] = { ...items[i], good: e.target.value === 'true' }
+                          onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], dilemmaLeftItems: items })
+                        }}
+                        className={`${inputClass} w-[20%]`}
+                      >
+                        <option value="true">✓</option>
+                        <option value="false">✗</option>
+                      </select>
+                    </div>
+                  </div>
+                ))}
+                <div>
+                  <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Footer note</label>
+                  <input type="text" value={sceneMetadata?.['data-mesh']?.dilemmaLeftFooter || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], dilemmaLeftFooter: e.target.value })} className={inputClass} placeholder="Fast & flexible, but expensive" />
+                </div>
+              </div>
+
+              {/* Right card */}
+              <div className={`p-3 rounded-lg border space-y-2 ${isDark ? 'border-white/10 bg-white/[0.02]' : 'border-elastic-dev-blue/10 bg-elastic-dev-blue/[0.02]'}`}>
+                <p className={`text-xs font-semibold ${isDark ? 'text-orange-400/80' : 'text-elastic-midnight'}`}>Right card</p>
+                <div>
+                  <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Title</label>
+                  <input type="text" value={sceneMetadata?.['data-mesh']?.dilemmaRightTitle || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], dilemmaRightTitle: e.target.value })} className={inputClass} placeholder="Storage" />
+                </div>
+                <div>
+                  <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Subtitle</label>
+                  <input type="text" value={sceneMetadata?.['data-mesh']?.dilemmaRightSubtitle || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], dilemmaRightSubtitle: e.target.value })} className={inputClass} placeholder="Like disk" />
+                </div>
+                {['Batch scan only ✗', 'Rehydrate first ✗', 'Minutes to hours ✗', '$0.02 per GB ✓'].map((placeholder, i) => (
+                  <div key={i}>
+                    <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Item {i + 1}</label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={sceneMetadata?.['data-mesh']?.dilemmaRightItems?.[i]?.text || ''}
+                        onChange={(e) => {
+                          const items = [...(sceneMetadata?.['data-mesh']?.dilemmaRightItems || [{}, {}, {}, {}])]
+                          items[i] = { ...items[i], text: e.target.value }
+                          onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], dilemmaRightItems: items })
+                        }}
+                        className={`${inputClass} w-[80%]`}
+                        placeholder={placeholder.replace(' ✓', '').replace(' ✗', '')}
+                      />
+                      <select
+                        value={sceneMetadata?.['data-mesh']?.dilemmaRightItems?.[i]?.good ?? (i === 3 ? true : false)}
+                        onChange={(e) => {
+                          const items = [...(sceneMetadata?.['data-mesh']?.dilemmaRightItems || [{}, {}, {}, {}])]
+                          items[i] = { ...items[i], good: e.target.value === 'true' }
+                          onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], dilemmaRightItems: items })
+                        }}
+                        className={`${inputClass} w-[20%]`}
+                      >
+                        <option value="true">✓</option>
+                        <option value="false">✗</option>
+                      </select>
+                    </div>
+                  </div>
+                ))}
+                <div>
+                  <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Footer note</label>
+                  <input type="text" value={sceneMetadata?.['data-mesh']?.dilemmaRightFooter || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], dilemmaRightFooter: e.target.value })} className={inputClass} placeholder="Cheap but slow" />
+                </div>
+              </div>
+            </div>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Callout prefix</label>
+              <input type="text" value={sceneMetadata?.['data-mesh']?.dilemmaCalloutPrefix || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], dilemmaCalloutPrefix: e.target.value })} className={inputClass} placeholder="Cost won. The industry went" />
+            </div>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Callout highlighted word</label>
+              <input type="text" value={sceneMetadata?.['data-mesh']?.dilemmaCalloutHighlight || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], dilemmaCalloutHighlight: e.target.value })} className={inputClass} placeholder="storage-first" />
+            </div>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Callout sub-text</label>
+              <input type="text" value={sceneMetadata?.['data-mesh']?.dilemmaCalloutSub || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], dilemmaCalloutSub: e.target.value })} className={inputClass} placeholder="But that created new problems..." />
+            </div>
+          </div>
+
+          {/* ── Stage 2 — The Problems ── */}
+          <div className="space-y-3">
+            <h4 className={`text-xs font-semibold uppercase tracking-wide ${isDark ? 'text-elastic-teal/70' : 'text-elastic-blue'}`}>Stage 3 — {sceneMetadata?.['data-mesh']?.stageLabels?.[2] || 'The Problems'}</h4>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Intro text</label>
+              <input type="text" value={sceneMetadata?.['data-mesh']?.problemsIntro || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], problemsIntro: e.target.value })} className={inputClass} placeholder="Storage-first seemed smart… until the cracks appeared" />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { placeholder: 'Data Silos', descPlaceholder: "Isolated pools that can't talk to each other" },
+                { placeholder: 'Slow Insights', descPlaceholder: 'Minutes to hours before you can query' },
+                { placeholder: 'No Visibility', descPlaceholder: "Can't see across the enterprise" },
+                { placeholder: 'Data Sprawl', descPlaceholder: 'Copies everywhere, truth nowhere' },
+              ].map(({ placeholder, descPlaceholder }, i) => (
+                <div key={i} className={`p-3 rounded-lg border space-y-2 ${isDark ? 'border-white/10 bg-white/[0.02]' : 'border-elastic-dev-blue/10 bg-elastic-dev-blue/[0.02]'}`}>
+                  <p className={`text-xs font-semibold ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Problem #{i + 1}</p>
+                  <div>
+                    <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Title</label>
+                    <input
+                      type="text"
+                      value={sceneMetadata?.['data-mesh']?.problemsCards?.[i]?.title || ''}
+                      onChange={(e) => {
+                        const cards = [...(sceneMetadata?.['data-mesh']?.problemsCards || [{}, {}, {}, {}])]
+                        cards[i] = { ...cards[i], title: e.target.value }
+                        onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], problemsCards: cards })
+                      }}
+                      className={inputClass}
+                      placeholder={placeholder}
+                    />
+                  </div>
+                  <div>
+                    <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Description</label>
+                    <input
+                      type="text"
+                      value={sceneMetadata?.['data-mesh']?.problemsCards?.[i]?.desc || ''}
+                      onChange={(e) => {
+                        const cards = [...(sceneMetadata?.['data-mesh']?.problemsCards || [{}, {}, {}, {}])]
+                        cards[i] = { ...cards[i], desc: e.target.value }
+                        onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], problemsCards: cards })
+                      }}
+                      className={inputClass}
+                      placeholder={descPlaceholder}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Bottom callout</label>
+              <input type="text" value={sceneMetadata?.['data-mesh']?.problemsCallout || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], problemsCallout: e.target.value })} className={inputClass} placeholder="The industry needed solutions. Workarounds emerged…" />
+            </div>
+          </div>
+
+          {/* ── Stage 3 — The Workarounds ── */}
+          <div className="space-y-3">
+            <h4 className={`text-xs font-semibold uppercase tracking-wide ${isDark ? 'text-elastic-teal/70' : 'text-elastic-blue'}`}>Stage 4 — {sceneMetadata?.['data-mesh']?.stageLabels?.[3] || 'The Workarounds'}</h4>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Eyebrow</label>
+              <input type="text" value={sceneMetadata?.['data-mesh']?.workaroundsEyebrow || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], workaroundsEyebrow: e.target.value })} className={inputClass} placeholder="The Industry's Attempts" />
+            </div>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Heading prefix</label>
+              <input type="text" value={sceneMetadata?.['data-mesh']?.workaroundsHeadingPrefix || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], workaroundsHeadingPrefix: e.target.value })} className={inputClass} placeholder="Workarounds emerged… but data stayed" />
+            </div>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Heading highlighted word</label>
+              <input type="text" value={sceneMetadata?.['data-mesh']?.workaroundsHighlight || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], workaroundsHighlight: e.target.value })} className={inputClass} placeholder="trapped" />
+            </div>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Empty state hint</label>
+              <input type="text" value={sceneMetadata?.['data-mesh']?.workaroundsEmptyState || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], workaroundsEmptyState: e.target.value })} className={inputClass} placeholder="Select a workaround to see why it falls short" />
+            </div>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Problems panel subtitle</label>
+              <input type="text" value={sceneMetadata?.['data-mesh']?.workaroundsFallsShort || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], workaroundsFallsShort: e.target.value })} className={inputClass} placeholder="Why it falls short" />
+            </div>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Summary callout (leave blank for default styled version)</label>
+              <textarea value={sceneMetadata?.['data-mesh']?.summaryCallout || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], summaryCallout: e.target.value || null })} className={textareaClass} rows={2} placeholder="The problem isn't where data lives… It's whether you can search it all at once." />
+            </div>
+            {/* Arch items */}
+            <div className="grid grid-cols-2 gap-3">
+            {[
+              { key: 'catalog',    placeholder: 'Metadata Catalog',  subtitlePlaceholder: 'The Dewey Decimal approach' },
+              { key: 'warehouse',  placeholder: 'Data Warehouse',    subtitlePlaceholder: 'Rigid structured storage'   },
+              { key: 'lake',       placeholder: 'Data Lake',         subtitlePlaceholder: 'Store everything raw'       },
+              { key: 'federation', placeholder: 'Federated Search',  subtitlePlaceholder: 'Query translator'           },
+            ].map(({ key, placeholder, subtitlePlaceholder }, i) => (
+              <div key={key} className={`p-3 rounded-lg border space-y-2 ${isDark ? 'border-white/10 bg-white/[0.02]' : 'border-elastic-dev-blue/10 bg-elastic-dev-blue/[0.02]'}`}>
+                <p className={`text-xs font-semibold ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Workaround #{i + 1} ({key})</p>
+                <div>
+                  <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Label</label>
+                  <input
+                    type="text"
+                    value={sceneMetadata?.['data-mesh']?.archItems?.[i]?.label || ''}
+                    onChange={(e) => {
+                      const items = [...(sceneMetadata?.['data-mesh']?.archItems || [{}, {}, {}, {}])]
+                      items[i] = { ...items[i], label: e.target.value }
+                      onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], archItems: items })
+                    }}
+                    className={inputClass}
+                    placeholder={placeholder}
+                  />
+                </div>
+                <div>
+                  <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Subtitle</label>
+                  <input
+                    type="text"
+                    value={sceneMetadata?.['data-mesh']?.archItems?.[i]?.subtitle || ''}
+                    onChange={(e) => {
+                      const items = [...(sceneMetadata?.['data-mesh']?.archItems || [{}, {}, {}, {}])]
+                      items[i] = { ...items[i], subtitle: e.target.value }
+                      onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], archItems: items })
+                    }}
+                    className={inputClass}
+                    placeholder={subtitlePlaceholder}
+                  />
+                </div>
+                {[0, 1, 2, 3].map((pi) => (
+                  <div key={pi}>
+                    <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Problem {pi + 1}</label>
+                    <input
+                      type="text"
+                      value={sceneMetadata?.['data-mesh']?.archItems?.[i]?.problems?.[pi] || ''}
+                      onChange={(e) => {
+                        const items = [...(sceneMetadata?.['data-mesh']?.archItems || [{}, {}, {}, {}])]
+                        const problems = [...(items[i]?.problems || ['', '', '', ''])]
+                        problems[pi] = e.target.value
+                        items[i] = { ...items[i], problems }
+                        onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], archItems: items })
+                      }}
+                      className={inputClass}
+                      placeholder={`Problem ${pi + 1}`}
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
+            </div>
+          </div>
+
+          {/* ── Stage 4 — The Transformation ── */}
+          <div className="space-y-3">
+            <h4 className={`text-xs font-semibold uppercase tracking-wide ${isDark ? 'text-elastic-teal/70' : 'text-elastic-blue'}`}>Stage 5 — {sceneMetadata?.['data-mesh']?.stageLabels?.[4] || 'The Transformation'}</h4>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Before mesh title (scattered silos view)</label>
+              <input type="text" value={sceneMetadata?.['data-mesh']?.siloTitle || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], siloTitle: e.target.value })} className={inputClass} placeholder="What if you could search everywhere without copying anything?" />
+            </div>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>After mesh title (connected mesh view)</label>
+              <input type="text" value={sceneMetadata?.['data-mesh']?.meshTitle || ''} onChange={(e) => onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], meshTitle: e.target.value })} className={inputClass} placeholder="The Elastic Data Mesh: Query globally, store locally" />
+            </div>
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Mesh node labels</label>
+              {[{ placeholder: 'Site 1' }, { placeholder: 'Site 2' }, { placeholder: 'Site N' }].map(({ placeholder }, i) => (
+                <div key={i} className="mt-1">
+                  <input
+                    type="text"
+                    value={sceneMetadata?.['data-mesh']?.meshNodes?.[i]?.label || ''}
+                    onChange={(e) => {
+                      const nodes = [...(sceneMetadata?.['data-mesh']?.meshNodes || [{}, {}, {}])]
+                      nodes[i] = { ...nodes[i], label: e.target.value }
+                      onUpdateSceneMetadata('data-mesh', { ...sceneMetadata?.['data-mesh'], meshNodes: nodes })
+                    }}
+                    className={inputClass}
+                    placeholder={placeholder}
+                  />
+                </div>
+              ))}
+              <p className={`text-xs mt-1 ${isDark ? 'text-white/30' : 'text-elastic-dev-blue/30'}`}>Labels for Site 1, Site 2, Site N nodes in the connected mesh diagram</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {selectedScene === 'cross-cluster' && (
         <div className="space-y-6 mt-6">
           <h3 className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-elastic-dark-ink'}`}>
@@ -1707,10 +2262,11 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
           </div>
 
           {/* Benefit cards */}
-          <div className="space-y-4">
-            <h4 className={`text-xs font-semibold uppercase tracking-wide ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>
+          <div>
+            <h4 className={`text-xs font-semibold uppercase tracking-wide mb-3 ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>
               Benefit Cards
             </h4>
+            <div className="grid grid-cols-2 gap-3">
             {[
               { defaultText: 'Search across all data',        defaultHighlight: 'limit data transfer costs'  },
               { defaultText: 'Data privacy & sovereignty',    defaultHighlight: 'global compliance'          },
@@ -1751,6 +2307,69 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
                 </div>
               )
             })}
+            </div>
+          </div>
+
+          {/* ── Stage 0: Remote Clusters ───────────────────────────────────── */}
+          <div>
+            <h4 className={`text-xs font-semibold uppercase tracking-wide mb-3 ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>
+              Remote Clusters (Stage 0)
+            </h4>
+            <div className="grid grid-cols-4 gap-3">
+            {[
+              { defaultLabel: 'elastic', defaultName: 'On-Prem', defaultType: 'onprem' },
+              { defaultLabel: 'elastic', defaultName: 'AWS',     defaultType: 'cloud'  },
+              { defaultLabel: 'elastic', defaultName: 'GCP',     defaultType: 'cloud'  },
+              { defaultLabel: 'elastic', defaultName: 'Azure',   defaultType: 'cloud'  },
+            ].map((defaults, i) => {
+              const updateCluster = (field, value) => {
+                const clusters = [...(sceneMetadata?.['cross-cluster']?.clusters || [])]
+                clusters[i] = { ...(clusters[i] || {}), [field]: value }
+                onUpdateSceneMetadata('cross-cluster', { ...sceneMetadata?.['cross-cluster'], clusters })
+              }
+              return (
+                <div key={`cc-cluster-${i}`} className={`p-3 rounded-lg ${isDark ? 'bg-white/[0.03]' : 'bg-elastic-dev-blue/[0.03]'}`}>
+                  <p className={`text-xs font-semibold mb-2 ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Cluster #{i + 1}</p>
+                  <div className="space-y-2">
+                    <div>
+                      <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Label (e.g. "elastic")</label>
+                      <input
+                        type="text"
+                        value={sceneMetadata?.['cross-cluster']?.clusters?.[i]?.label || ''}
+                        onChange={(e) => updateCluster('label', e.target.value)}
+                        className={inputClass}
+                        placeholder={defaults.defaultLabel}
+                      />
+                    </div>
+                    <div>
+                      <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Name badge (e.g. "On-Prem")</label>
+                      <input
+                        type="text"
+                        value={sceneMetadata?.['cross-cluster']?.clusters?.[i]?.name || ''}
+                        onChange={(e) => updateCluster('name', e.target.value)}
+                        className={inputClass}
+                        placeholder={defaults.defaultName}
+                      />
+                    </div>
+                    <div>
+                      <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Icon</label>
+                      <select
+                        value={sceneMetadata?.['cross-cluster']?.clusters?.[i]?.type || defaults.defaultType}
+                        onChange={(e) => updateCluster('type', e.target.value)}
+                        className={inputClass}
+                      >
+                        <option value="cloud">Cloud</option>
+                        <option value="onprem">Building (On-Prem)</option>
+                        <option value="server">Server</option>
+                        <option value="database">Database</option>
+                        <option value="network">Network</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+            </div>
           </div>
 
           {/* ── Stage 1: In Practice ──────────────────────────────────── */}
@@ -1810,11 +2429,12 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
           </div>
 
           {/* Stage 1 site list */}
-          <div className="space-y-4">
-            <h4 className={`text-xs font-semibold uppercase tracking-wide ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>
+          <div>
+            <h4 className={`text-xs font-semibold uppercase tracking-wide mb-3 ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>
               Sites (Stage 1)
             </h4>
-            {Array.from({ length: parseInt(sceneMetadata?.['cross-cluster']?.siteCount || '4') }, (_, i) => {
+            <div className="grid grid-cols-2 gap-3">
+            {Array.from({ length: parseInt(sceneMetadata?.['cross-cluster']?.siteCount || '7') }, (_, i) => {
               const defaultNames    = ['HQ Data Center', 'AWS us-east-1', 'Azure West EU', 'GCP Asia Pacific', 'DR Backup', 'Edge — LATAM', 'On-Prem EU']
               const defaultRegions  = ['US-East', 'US-East', 'EU-West', 'APAC', 'US-West', 'SA-East', 'EU-East']
               const defaultDocs     = ['2.4M', '8.1M', '3.7M', '1.9M', '2.4M', '0.9M', '1.5M']
@@ -1854,66 +2474,7 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
                 </div>
               )
             })}
-          </div>
-
-          {/* ── Stage 0: Remote Clusters ───────────────────────────────────── */}
-          <div className="space-y-4">
-            <h4 className={`text-xs font-semibold uppercase tracking-wide ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>
-              Remote Clusters (Stage 0)
-            </h4>
-            {[
-              { defaultLabel: 'elastic', defaultName: 'On-Prem', defaultType: 'onprem' },
-              { defaultLabel: 'elastic', defaultName: 'AWS',     defaultType: 'cloud'  },
-              { defaultLabel: 'elastic', defaultName: 'GCP',     defaultType: 'cloud'  },
-              { defaultLabel: 'elastic', defaultName: 'Azure',   defaultType: 'cloud'  },
-            ].map((defaults, i) => {
-              const updateCluster = (field, value) => {
-                const clusters = [...(sceneMetadata?.['cross-cluster']?.clusters || [])]
-                clusters[i] = { ...(clusters[i] || {}), [field]: value }
-                onUpdateSceneMetadata('cross-cluster', { ...sceneMetadata?.['cross-cluster'], clusters })
-              }
-              return (
-                <div key={`cc-cluster-${i}`} className={`p-3 rounded-lg ${isDark ? 'bg-white/[0.03]' : 'bg-elastic-dev-blue/[0.03]'}`}>
-                  <p className={`text-xs font-semibold mb-2 ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Cluster #{i + 1}</p>
-                  <div className="space-y-2">
-                    <div>
-                      <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Label (e.g. "elastic")</label>
-                      <input
-                        type="text"
-                        value={sceneMetadata?.['cross-cluster']?.clusters?.[i]?.label || ''}
-                        onChange={(e) => updateCluster('label', e.target.value)}
-                        className={inputClass}
-                        placeholder={defaults.defaultLabel}
-                      />
-                    </div>
-                    <div>
-                      <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Name badge (e.g. "On-Prem")</label>
-                      <input
-                        type="text"
-                        value={sceneMetadata?.['cross-cluster']?.clusters?.[i]?.name || ''}
-                        onChange={(e) => updateCluster('name', e.target.value)}
-                        className={inputClass}
-                        placeholder={defaults.defaultName}
-                      />
-                    </div>
-                    <div>
-                      <label className={`text-xs mb-1 block ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Icon</label>
-                      <select
-                        value={sceneMetadata?.['cross-cluster']?.clusters?.[i]?.type || defaults.defaultType}
-                        onChange={(e) => updateCluster('type', e.target.value)}
-                        className={inputClass}
-                      >
-                        <option value="cloud">Cloud</option>
-                        <option value="onprem">Building (On-Prem)</option>
-                        <option value="server">Server</option>
-                        <option value="database">Database</option>
-                        <option value="network">Network</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
+            </div>
           </div>
         </div>
       )}
@@ -2008,78 +2569,82 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
             Access Control Content
           </h3>
 
-          {/* Identity */}
-          <div className={`p-4 rounded-xl space-y-3 ${isDark ? 'bg-white/[0.03]' : 'bg-elastic-dev-blue/[0.02]'}`}>
-            <h4 className={`text-xs font-semibold uppercase tracking-wide ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>
-              Identity
-            </h4>
-            <div>
-              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
-                Company Domain
-              </label>
-              <input
-                type="text"
-                value={sceneMetadata?.['access-control']?.domain || ''}
-                onChange={(e) => onUpdateSceneMetadata('access-control', {
-                  ...sceneMetadata?.['access-control'],
-                  domain: e.target.value
-                })}
-                className={inputClass}
-                placeholder="acme.com"
-              />
-              <p className={`text-xs mt-1 ${isDark ? 'text-white/30' : 'text-elastic-dev-blue/30'}`}>
-                Replaces the email domain in all log entries (e.g. user@acme.com)
-              </p>
-            </div>
-            <div>
-              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
-                Departments
-              </label>
-              <input
-                type="text"
-                value={sceneMetadata?.['access-control']?.departments || ''}
-                onChange={(e) => onUpdateSceneMetadata('access-control', {
-                  ...sceneMetadata?.['access-control'],
-                  departments: e.target.value
-                })}
-                className={inputClass}
-                placeholder="Engineering, Finance, Sales, IT"
-              />
-              <p className={`text-xs mt-1 ${isDark ? 'text-white/30' : 'text-elastic-dev-blue/30'}`}>
-                Comma-separated list. Updates the ABAC department filter chips and redistributes log entries automatically.
-              </p>
-            </div>
-          </div>
+          <div className="grid grid-cols-2 gap-4 items-stretch">
 
-          {/* Column Labels */}
-          <div className={`p-4 rounded-xl space-y-3 ${isDark ? 'bg-white/[0.03]' : 'bg-elastic-dev-blue/[0.02]'}`}>
-            <h4 className={`text-xs font-semibold uppercase tracking-wide ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>
-              Column Labels
-            </h4>
-            <p className={`text-xs ${isDark ? 'text-white/30' : 'text-elastic-dev-blue/30'}`}>
-              Rename table columns to match your terminology.
-            </p>
-            {[
-              { key: 'action',      placeholder: 'Action'      },
-              { key: 'credit_card', placeholder: 'Credit Card' },
-              { key: 'ssn',         placeholder: 'SSN'         },
-            ].map(({ key, placeholder }) => (
-              <div key={key}>
+            {/* Identity */}
+            <div className={`p-4 rounded-xl space-y-3 ${isDark ? 'bg-white/[0.03]' : 'bg-elastic-dev-blue/[0.02]'}`}>
+              <h4 className={`text-xs font-semibold uppercase tracking-wide ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>
+                Identity
+              </h4>
+              <div>
                 <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
-                  {placeholder} column
+                  Company Domain
                 </label>
                 <input
                   type="text"
-                  value={sceneMetadata?.['access-control']?.[`label_${key}`] || ''}
+                  value={sceneMetadata?.['access-control']?.domain || ''}
                   onChange={(e) => onUpdateSceneMetadata('access-control', {
                     ...sceneMetadata?.['access-control'],
-                    [`label_${key}`]: e.target.value
+                    domain: e.target.value
                   })}
                   className={inputClass}
-                  placeholder={placeholder}
+                  placeholder="acme.com"
                 />
+                <p className={`text-xs mt-1 ${isDark ? 'text-white/30' : 'text-elastic-dev-blue/30'}`}>
+                  Replaces the email domain in all log entries (e.g. user@acme.com)
+                </p>
               </div>
-            ))}
+              <div>
+                <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
+                  Departments
+                </label>
+                <input
+                  type="text"
+                  value={sceneMetadata?.['access-control']?.departments || ''}
+                  onChange={(e) => onUpdateSceneMetadata('access-control', {
+                    ...sceneMetadata?.['access-control'],
+                    departments: e.target.value
+                  })}
+                  className={inputClass}
+                  placeholder="Engineering, Finance, Sales, IT"
+                />
+                <p className={`text-xs mt-1 ${isDark ? 'text-white/30' : 'text-elastic-dev-blue/30'}`}>
+                  Comma-separated list. Updates the ABAC department filter chips and redistributes log entries automatically.
+                </p>
+              </div>
+            </div>
+
+            {/* Column Labels */}
+            <div className={`p-4 rounded-xl space-y-3 ${isDark ? 'bg-white/[0.03]' : 'bg-elastic-dev-blue/[0.02]'}`}>
+              <h4 className={`text-xs font-semibold uppercase tracking-wide ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>
+                Column Labels
+              </h4>
+              <p className={`text-xs ${isDark ? 'text-white/30' : 'text-elastic-dev-blue/30'}`}>
+                Rename table columns to match your terminology.
+              </p>
+              {[
+                { key: 'action',      placeholder: 'Action'      },
+                { key: 'credit_card', placeholder: 'Credit Card' },
+                { key: 'ssn',         placeholder: 'SSN'         },
+              ].map(({ key, placeholder }) => (
+                <div key={key}>
+                  <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>
+                    {placeholder} column
+                  </label>
+                  <input
+                    type="text"
+                    value={sceneMetadata?.['access-control']?.[`label_${key}`] || ''}
+                    onChange={(e) => onUpdateSceneMetadata('access-control', {
+                      ...sceneMetadata?.['access-control'],
+                      [`label_${key}`]: e.target.value
+                    })}
+                    className={inputClass}
+                    placeholder={placeholder}
+                  />
+                </div>
+              ))}
+            </div>
+
           </div>
 
           {/* Sample Values */}
@@ -2234,7 +2799,7 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
             ))}
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-3 gap-3">
             <div>
               <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Stat Value</label>
               <input
@@ -2255,17 +2820,16 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
                 placeholder="Avg. security tools per org"
               />
             </div>
-          </div>
-
-          <div>
-            <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Stat Source</label>
-            <input
-              type="text"
-              value={sceneMetadata?.consolidation?.beforeStatSource || ''}
-              onChange={(e) => onUpdateSceneMetadata('consolidation', { ...sceneMetadata?.consolidation, beforeStatSource: e.target.value })}
-              className={inputClass}
-              placeholder="IBM / Palo Alto Networks"
-            />
+            <div>
+              <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Stat Source</label>
+              <input
+                type="text"
+                value={sceneMetadata?.consolidation?.beforeStatSource || ''}
+                onChange={(e) => onUpdateSceneMetadata('consolidation', { ...sceneMetadata?.consolidation, beforeStatSource: e.target.value })}
+                className={inputClass}
+                placeholder="IBM / Palo Alto Networks"
+              />
+            </div>
           </div>
 
           <div>
@@ -2413,10 +2977,11 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
           </div>
 
           {/* Sources */}
-          <div className="space-y-4">
-            <h4 className={`text-xs font-semibold uppercase tracking-wide ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>
+          <div>
+            <h4 className={`text-xs font-semibold uppercase tracking-wide mb-3 ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>
               Data Sources (Stage 1)
             </h4>
+            <div className="grid grid-cols-2 gap-3">
             {[
               { defaultLabel: 'Firewall',       defaultField: 'src_ip',         defaultHits: 14 },
               { defaultLabel: 'Windows Events', defaultField: 'source_address', defaultHits: 31 },
@@ -2467,6 +3032,7 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
                 </div>
               )
             })}
+            </div>
           </div>
         </div>
       )}
@@ -2525,48 +3091,50 @@ function CustomizationsPanel({ isDark, sceneMetadata, onUpdateSceneMetadata }) {
             ES|QL Scene — Value Propositions
           </h3>
 
-          {[
-            { label: 'Card 1', titleKey: 'valuePropTitle0', descKey: 'valuePropDesc0', titlePlaceholder: 'Faster queries, at scale.', descPlaceholder: 'Multi-stage concurrent execution delivers greater speed and efficiency across billions of events. No pre-aggregation required.' },
-            { label: 'Card 2', titleKey: 'valuePropTitle1', descKey: 'valuePropDesc1', titlePlaceholder: 'One query. One window.', descPlaceholder: 'Search, aggregate, calculate, transform, and visualize from a single pipeline. Refine as you go.' },
-            { label: 'Card 3', titleKey: 'valuePropTitle2', descKey: 'valuePropDesc2', titlePlaceholder: 'Lookup, join, and transform.', descPlaceholder: 'Perform data transformations in one query with lookup and joins. No convoluted scripts. No redundant requests.' },
-            { label: 'Card 4', titleKey: 'valuePropTitle3', descKey: 'valuePropDesc3', titlePlaceholder: 'More accurate alerting.', descPlaceholder: 'Review trends over isolated incidents to reduce false positives and surface more actionable notifications.' },
-          ].map(({ label, titleKey, descKey, titlePlaceholder, descPlaceholder }, i) => {
-            const titles = sceneMetadata?.esql?.valuePropTitles || []
-            const descs  = sceneMetadata?.esql?.valuePropDescriptions || []
-            return (
-              <div key={i} className="space-y-3">
-                <p className={`text-xs font-semibold uppercase tracking-wider ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>{label}</p>
-                <div>
-                  <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Title</label>
-                  <input
-                    type="text"
-                    value={titles[i] || ''}
-                    onChange={(e) => {
-                      const next = [...titles]
-                      next[i] = e.target.value
-                      onUpdateSceneMetadata('esql', { ...sceneMetadata?.esql, valuePropTitles: next })
-                    }}
-                    className={inputClass}
-                    placeholder={titlePlaceholder}
-                  />
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              { label: 'Card 1', titlePlaceholder: 'Faster queries, at scale.', descPlaceholder: 'Multi-stage concurrent execution delivers greater speed and efficiency across billions of events. No pre-aggregation required.' },
+              { label: 'Card 2', titlePlaceholder: 'One query. One window.', descPlaceholder: 'Search, aggregate, calculate, transform, and visualize from a single pipeline. Refine as you go.' },
+              { label: 'Card 3', titlePlaceholder: 'Lookup, join, and transform.', descPlaceholder: 'Perform data transformations in one query with lookup and joins. No convoluted scripts. No redundant requests.' },
+              { label: 'Card 4', titlePlaceholder: 'More accurate alerting.', descPlaceholder: 'Review trends over isolated incidents to reduce false positives and surface more actionable notifications.' },
+            ].map(({ label, titlePlaceholder, descPlaceholder }, i) => {
+              const titles = sceneMetadata?.esql?.valuePropTitles || []
+              const descs  = sceneMetadata?.esql?.valuePropDescriptions || []
+              return (
+                <div key={i} className="space-y-3">
+                  <p className={`text-xs font-semibold uppercase tracking-wider ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>{label}</p>
+                  <div>
+                    <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Title</label>
+                    <input
+                      type="text"
+                      value={titles[i] || ''}
+                      onChange={(e) => {
+                        const next = [...titles]
+                        next[i] = e.target.value
+                        onUpdateSceneMetadata('esql', { ...sceneMetadata?.esql, valuePropTitles: next })
+                      }}
+                      className={inputClass}
+                      placeholder={titlePlaceholder}
+                    />
+                  </div>
+                  <div>
+                    <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Description</label>
+                    <textarea
+                      rows={2}
+                      value={descs[i] || ''}
+                      onChange={(e) => {
+                        const next = [...descs]
+                        next[i] = e.target.value
+                        onUpdateSceneMetadata('esql', { ...sceneMetadata?.esql, valuePropDescriptions: next })
+                      }}
+                      className={inputClass}
+                      placeholder={descPlaceholder}
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label className={`text-xs mb-1 block ${isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'}`}>Description</label>
-                  <textarea
-                    rows={2}
-                    value={descs[i] || ''}
-                    onChange={(e) => {
-                      const next = [...descs]
-                      next[i] = e.target.value
-                      onUpdateSceneMetadata('esql', { ...sceneMetadata?.esql, valuePropDescriptions: next })
-                    }}
-                    className={inputClass}
-                    placeholder={descPlaceholder}
-                  />
-                </div>
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
         </div>
       )}
 
